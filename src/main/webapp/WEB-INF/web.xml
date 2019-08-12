@@ -1,0 +1,37 @@
+<web-app version="3.0" metadata-complete="true"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <filter>
+        <filter-name>AutomatonZipletFilter</filter-name>
+        <filter-class>com.github.ziplet.filter.compression.CompressingFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AutomatonZipletFilter</filter-name>
+        <url-pattern>/css/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AutomatonZipletFilter</filter-name>
+        <url-pattern>/js/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AutomatonZipletFilter</filter-name>
+        <url-pattern>/webfonts/*</url-pattern>
+    </filter-mapping>
+
+    <!-- TODO: add your app to ziplet filter instead of "myapp" -->
+    <filter-mapping>
+        <filter-name>AutomatonZipletFilter</filter-name>
+        <url-pattern>/myapp/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AutomatonZipletFilter</filter-name>
+        <url-pattern>/graphql/*</url-pattern>
+    </filter-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>

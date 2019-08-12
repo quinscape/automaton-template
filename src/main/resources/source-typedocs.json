@@ -1,0 +1,26 @@
+[
+  {
+    "name":"QueryType",
+    "description":null,
+    "fieldDocs":[
+      {
+        "name":"iQuery",
+        "description":"Default implementation of an InteractiveQuery based query for type [T].",
+        "paramDocs":[
+          {
+            "name":"type",
+            "description":""
+          },
+          {
+            "name":"env",
+            "description":""
+          },
+          {
+            "name":"config",
+            "description":"configuration for the Interactive query."
+          }
+        ]
+      }
+    ]
+  }
+]

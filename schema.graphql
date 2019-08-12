@@ -1,0 +1,243 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: QueryType
+    mutation: MutationType
+}
+
+"Encapsulates JSON AppScope data"
+type AppConfig {
+    "DB column 'name'"
+    name: String!
+    "DB column 'scope'"
+    scope: JSONB!
+}
+
+"Encapsulates login information for the remember-me feature"
+type AppLogin {
+    "DB column 'last_used'"
+    lastUsed: Timestamp!
+    "DB column 'series'"
+    series: String!
+    "DB column 'token'"
+    token: String!
+    "DB column 'username'"
+    username: String!
+}
+
+"Encapsulates application translations"
+type AppTranslation {
+    "DB column 'created'"
+    created: Timestamp!
+    "DB column 'id'"
+    id: String!
+    "DB column 'locale'"
+    locale: String!
+    "DB column 'modified'"
+    modified: Timestamp!
+    "DB column 'process_name'"
+    processName: String!
+    "DB column 'tag'"
+    tag: String!
+    "DB column 'translation'"
+    translation: String!
+}
+
+"Automaton/Spring Security user object"
+type AppUser {
+    "DB column 'created'"
+    created: Timestamp!
+    "DB column 'disabled'"
+    disabled: Boolean
+    "Many-to-many objects from 'foo.owner_id'"
+    foos: [Foo]!
+    "DB column 'id'"
+    id: String!
+    "DB column 'last_login'"
+    lastLogin: Timestamp
+    "DB column 'login'"
+    login: String!
+    "DB column 'password'"
+    password: String!
+    "DB column 'roles'"
+    roles: String!
+}
+
+"Generated from public.app_user_config"
+type AppUserConfig {
+    "DB column 'login'"
+    login: String!
+    "DB foreign key column 'user_id'"
+    userId: String!
+}
+
+"The state of a column within an interactive query."
+type ColumnState {
+    "True if column is enabled. Server might disabled columns."
+    enabled: Boolean
+    "Column name"
+    name: String
+    "True if the column is sortable."
+    sortable: Boolean
+}
+
+"Example domain type for automatontemplate"
+type Foo {
+    "DB column 'created'"
+    created: Timestamp!
+    "DB column 'description'"
+    description: String
+    "DB column 'flag'"
+    flag: Boolean!
+    "DB column 'id'"
+    id: String!
+    "DB column 'name'"
+    name: String!
+    "DB column 'num'"
+    num: Int!
+    "Target of 'owner_id'"
+    owner: AppUser!
+    "DB foreign key column 'type'"
+    type: String!
+}
+
+"Catalog-like domain object, referenced by Foo."
+type FooType {
+    "DB column 'name'"
+    name: String!
+    "DB column 'ordinal'"
+    ordinal: Int!
+}
+
+"Interactive Query with AppUser payload."
+type InteractiveQueryAppUser {
+    "Column states for the current result."
+    columnStates: [ColumnState]
+    "Query configuration the current result was produced with."
+    queryConfig: QueryConfig
+    "Total row count available."
+    rowCount: Int
+    "List with current rows of AppUser."
+    rows: [AppUser]
+    "Name of payload type (always 'AppUser')"
+    type: String
+}
+
+"Interactive Query with Foo payload."
+type InteractiveQueryFoo {
+    "Column states for the current result."
+    columnStates: [ColumnState]
+    "Query configuration the current result was produced with."
+    queryConfig: QueryConfig
+    "Total row count available."
+    rowCount: Int
+    "List with current rows of Foo."
+    rows: [Foo]
+    "Name of payload type (always 'Foo')"
+    type: String
+}
+
+"Interactive Query with FooType payload."
+type InteractiveQueryFooType {
+    "Column states for the current result."
+    columnStates: [ColumnState]
+    "Query configuration the current result was produced with."
+    queryConfig: QueryConfig
+    "Total row count available."
+    rowCount: Int
+    "List with current rows of FooType."
+    rows: [FooType]
+    "Name of payload type (always 'FooType')"
+    type: String
+}
+
+"Auto-generated from AutomatontemplateLogic, AutomatonStandardLogic"
+type MutationType {
+    "Deletes the domain object of the given type and with the given id."
+    deleteDomainObject(id: String!, type: String!): Boolean
+    "Stores a any domain object. Note that you might have to manually register an input type."
+    storeDomainObject(domainObject: DomainObject!): Boolean
+}
+
+"Encapsulates all parameters of an interactive query."
+type QueryConfig {
+    "FilterDSL condition graph or null"
+    condition: Condition
+    "Current page within the paginated results"
+    currentPage: Int
+    "Optional unique query identifier. Useful for server-side query implementations."
+    id: String
+    "Maximum number of paginated results.,"
+    pageSize: Int
+    "Current sort order for the query."
+    sortFields: [FieldExpression]
+}
+
+"Auto-generated from AutomatontemplateLogic, AutomatonStandardLogic"
+type QueryType {
+    "Default implementation of an InteractiveQuery based query for type AppUser."
+    iQueryAppUser(config: QueryConfigInput!): InteractiveQueryAppUser
+    "Default implementation of an InteractiveQuery based query for type Foo."
+    iQueryFoo(config: QueryConfigInput!): InteractiveQueryFoo
+    "Default implementation of an InteractiveQuery based query for type FooType."
+    iQueryFooType(config: QueryConfigInput!): InteractiveQueryFooType
+}
+
+"Automaton/Spring Security user object"
+input AppUserInput {
+    created: Timestamp!
+    disabled: Boolean
+    id: String!
+    lastLogin: Timestamp
+    login: String!
+    password: String!
+    roles: String!
+}
+
+"Example domain type for automatontemplate"
+input FooInput {
+    created: Timestamp!
+    description: String
+    flag: Boolean!
+    id: String!
+    name: String!
+    num: Int!
+    ownerId: String!
+    type: String!
+}
+
+"Catalog-like domain object, referenced by Foo."
+input FooTypeInput {
+    name: String!
+    ordinal: Int!
+}
+
+"Encapsulates all parameters of an interactive query."
+input QueryConfigInput {
+    "FilterDSL condition graph or null"
+    condition: Condition
+    "Current page within the paginated results"
+    currentPage: Int
+    "Optional unique query identifier. Useful for server-side query implementations."
+    id: String
+    "Maximum number of paginated results.,"
+    pageSize: Int
+    "Current sort order for the query."
+    sortFields: [FieldExpression]
+}
+
+
+"SQL timestamp equivalent"
+scalar Timestamp
+
+"Map graph representing JOOQ conditions"
+scalar Condition
+
+"Postgresql jsonb type equivalent"
+scalar JSONB
+
+"Map graph representing a JOOQ field expression"
+scalar FieldExpression
+
+"Container for generic domain objects as scalar"
+scalar DomainObject

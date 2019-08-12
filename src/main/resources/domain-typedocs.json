@@ -1,0 +1,39 @@
+[
+    {
+        "name": "Foo",
+        "description": "Example domain type for automatontemplate",
+        "fieldDocs": []
+    },
+    {
+        "name": "FooType",
+        "description": "Catalog-like domain object, referenced by Foo.",
+        "fieldDocs": []
+    },
+
+
+    {
+        "name": "AppConfig",
+        "description": "Encapsulates AppScope JSON data",
+        "fieldDocs": []
+    },
+    {
+        "name": "AppLogin",
+        "description": "Encapsulates login information for the remember-me feature",
+        "fieldDocs": []
+    },
+    {
+        "name": "AppTranslation",
+        "description": "Encapsulates application translations",
+        "fieldDocs": []
+    },
+    {
+        "name": "AppUser",
+        "description": "Automaton/Spring Security user object",
+        "fieldDocs": []
+    },
+    {
+        "name": "AppUserConfig",
+        "description": "Encapsulations UserScope JSON data",
+        "fieldDocs": []
+    }
+]
