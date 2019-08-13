@@ -768,17 +768,29 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@quinscape/automaton-js@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@quinscape/automaton-js/-/automaton-js-0.0.14.tgz#3f43d2e2aa02f69a99ab982696443aa203bd7132"
-  integrity sha512-w/ayI0pJ4Q3JjdQ20kkwGEgfpSDq+pcMMuYrWpyIoi94onG0V6L+7lAlqyBufMECM0ntgUOkKa5OVht6NZHVMQ==
+"@quinscape/automaton-js@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@quinscape/automaton-js/-/automaton-js-0.0.15.tgz#ceca00be26786cdcb62b304f5628bd8fe21030d0"
+  integrity sha512-d+TQFOaSPcYpHjm6mmCrJKRvLYoxHMr/DEwDZZ0gviSSEwj9LQ7lFDXm7iYCPAEJJvkYI+gFJ4ZqN1Awnh93mQ==
   dependencies:
     classnames "^2.2.6"
+    create-react-class "^15.6.3"
+    domainql-form "^2.2.7"
     graphql "^14.0.2"
+    history "^4.9.0"
     lodash.set "^4.3.2"
-    prop-types "^15.6.2"
+    mobx "^5.13.0"
+    mobx-react "^5.4.4"
+    mobx-react-devtools "^6.1.1"
+    mobx-react-lite "^1.4.1"
+    mobx-utils "^5.4.1"
+    prop-types "^15.7.2"
+    react "^16.9.0"
+    react-calendar "^2.19.1"
     react-json-tree "^0.11.0"
+    reactstrap "^8.0.1"
     recursive-readdir "^2.2.2"
+    simple-git "^1.119.0"
     uuid "^3.3.2"
 
 "@webassemblyjs/ast@1.8.5":
@@ -1725,6 +1737,15 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+create-react-class@^15.6.3:
+  version "15.6.3"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
+  integrity sha512-M+/3Q6E6DLO6Yx3OwrWjwHBnvfXXYA7W+dFjt/ZDBemHO1DDZhsalX/NUtnTYclN6GfnBDRh4qRHjcDHmlJBJg==
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 create-react-context@<=0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/create-react-context/-/create-react-context-0.2.2.tgz#9836542f9aaa22868cd7d4a6f82667df38019dca"
@@ -1816,7 +1837,7 @@ debug@^2.2.0, debug@^2.3.3, debug@^2.6.8:
   dependencies:
     ms "2.0.0"
 
-debug@^4.1.0:
+debug@^4.0.1, debug@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
@@ -1926,10 +1947,10 @@ domain-browser@^1.1.1:
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
   integrity sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==
 
-domainql-form@^2.2.6:
-  version "2.2.6"
-  resolved "https://registry.yarnpkg.com/domainql-form/-/domainql-form-2.2.6.tgz#035f8d8e9b53205b3a1052dc5fb1efdd9ffda5fd"
-  integrity sha512-GlDRZ0yud13QjNfjAZEZmeP9yyGfcgVFdjLVEJVo9DN6JwgKY6IwVMKlT8thZ7iDHusS4iQALBvpgX/V3xQGEg==
+domainql-form@^2.2.7:
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/domainql-form/-/domainql-form-2.2.7.tgz#603d29d57c4fa8deb1b9bbc744c4809658b81083"
+  integrity sha512-h6C4pTbpRCTS3WxSVnm+KNicuVtZJlNDlN7mOcxPmX+Y2M1dXZmCZwArhakv98Ic9vuidNnSWchVkuG84kyS7Q==
   dependencies:
     classnames "^2.2.5"
     lodash.debounce "^4.0.8"
@@ -1937,7 +1958,13 @@ domainql-form@^2.2.6:
     lodash.isequal "^4.5.0"
     lodash.set "^4.3.2"
     lodash.topath "^4.5.2"
-    prop-types "^15.7.2  "
+    mobx "^5.13.0"
+    mobx-react "^5.4.4"
+    mobx-react-devtools "^6.1.1"
+    mobx-react-lite "^1.4.1"
+    mobx-utils "^5.4.1"
+    prop-types "^15.7.2"
+    react "^16.9.0"
     use-debounce "^2.1.0"
 
 domainql-webpack-plugin@^0.0.3:
@@ -2197,7 +2224,7 @@ fast-json-stable-stringify@^2.0.0:
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#d5142c0caee6b1189f87d3a76111064f86c8bbf2"
   integrity sha1-1RQsDK7msRifh9OnYREGT4bIu/I=
 
-fbjs@^0.8.0:
+fbjs@^0.8.0, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
@@ -2570,6 +2597,13 @@ hmac-drbg@^1.0.0:
     hash.js "^1.0.3"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
+
+hoist-non-react-statics@^3.0.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.0.tgz#b09178f0122184fb95acf525daaecb4d8f45958b"
+  integrity sha512-0XsbTXxgiaCDYDIWFcwkmerZPSwywfUqYmwT4jzewKTQSWoE6FCMoUVOeBJWK3E/CrWbxRG3m5GzY4lnIwGRBA==
+  dependencies:
+    react-is "^16.7.0"
 
 homedir-polyfill@^1.0.1:
   version "1.0.3"
@@ -3106,7 +3140,7 @@ log-symbols@2.2.0:
   dependencies:
     chalk "^2.0.1"
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.4.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -3312,6 +3346,14 @@ mobx-react-lite@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-1.4.1.tgz#7307a45901f97f9a07ebed32b654235507644e1a"
   integrity sha512-XmM+gzNv+GyXZYDLZMIGox3DufIiKULYgJsLhQj0U6Wlf+J5jv/h7limrL0aS1bEUtNilG62g9nwTeQ0KHzLFg==
+
+mobx-react@^5.4.4:
+  version "5.4.4"
+  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-5.4.4.tgz#b3de9c6eabcd0ed8a40036888cb0221ab9568b80"
+  integrity sha512-2mTzpyEjVB/RGk2i6KbcmP4HWcAUFox5ZRCrGvSyz49w20I4C4qql63grPpYrS9E9GKwgydBHQlA4y665LuRCQ==
+  dependencies:
+    hoist-non-react-statics "^3.0.0"
+    react-lifecycles-compat "^3.0.2"
 
 mobx-react@^6.1.3:
   version "6.1.3"
@@ -3991,7 +4033,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, "prop-types@^15.7.2  ":
+prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -4135,7 +4177,7 @@ react-dom@^16.9.0:
     prop-types "^15.6.2"
     scheduler "^0.15.0"
 
-react-is@^16.8.1:
+react-is@^16.7.0, react-is@^16.8.1:
   version "16.9.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
   integrity sha512-tJBzzzIgnnRfEm046qRcURvwQnZVXmuCbscxUO5RWrGTXpon2d4c8mI0D8WE6ydVIm29JiLB6+RslkIvym9Rjw==
@@ -4149,7 +4191,7 @@ react-json-tree@^0.11.0:
     prop-types "^15.5.8"
     react-base16-styling "^0.5.1"
 
-react-lifecycles-compat@^3.0.4:
+react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
@@ -4516,6 +4558,13 @@ signal-exit@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
+
+simple-git@^1.119.0:
+  version "1.124.0"
+  resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-1.124.0.tgz#10a73cc1af303832b5c11720d4256e134fba35ca"
+  integrity sha512-ks9mBoO4ODQy/xGLC8Cc+YDvj/hho/IKgPhi6h5LI/sA+YUdHc3v0DEoHzM29VmulubpGCxMJUSFmyXNsjNMEA==
+  dependencies:
+    debug "^4.0.1"
 
 slash@^2.0.0:
   version "2.0.0"
