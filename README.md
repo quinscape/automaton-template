@@ -66,6 +66,8 @@ user named "automatontemplate" with the password "automatontemplate".
 
 The `automatontemplate.backup` files contains a custom-format database dump like this.
 
+There is one user defined called "admin" with password "admin".
+
 ## Example App
 
 The project contains one app called "myapp" with a default process "myapp" that implements
