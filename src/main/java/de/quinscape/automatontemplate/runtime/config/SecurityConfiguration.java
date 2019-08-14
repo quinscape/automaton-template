@@ -21,9 +21,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 @Configuration
-@Import(MethodSecurityConfiguration.class)
+//@Import(MethodSecurityConfiguration.class)
 // Enable method security ( with @PreAuthorize/@PostAuthorize annotations)
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration
     extends WebSecurityConfigurerAdapter
 {
