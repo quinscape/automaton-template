@@ -9,6 +9,7 @@ import Dropdown from "reactstrap/lib/Dropdown";
 import DropdownToggle from "reactstrap/lib/DropdownToggle";
 import DropdownMenu from "reactstrap/lib/DropdownMenu";
 import DropdownItem from "reactstrap/lib/DropdownItem";
+import Chatbar from "./Chatbar";
 
 
 const Layout = props => {
@@ -70,6 +71,7 @@ const Layout = props => {
             {
                 children
             }
+            <Chatbar/>
             <div className="footer">
                 <LogoutForm/>
             </div>

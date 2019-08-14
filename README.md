@@ -16,7 +16,6 @@ The Java / server-side build of the project is done with maven (See `pom.xml`)
 
 ```shell script 
 mvn install
-
 ```
 
 Runs the complete Java and JavaScript production build and puts everything into a WAR archive.
@@ -35,7 +34,6 @@ The webpack build is done via package.json scripts. The project uses yarn as NPM
 
 ```shell script 
 yarn run watch
-
 ```
 
 To start the watch-mode which continuously transpiles changed JavaScript sources and copies it to the 
@@ -44,7 +42,6 @@ exploded-WAR folder.
 
 ```shell script 
 yarn test
-
 ```
 
 to run the JavaScript tests in `src/test/js/`
@@ -59,6 +56,32 @@ to run the JavaScript tests in `src/test/js/`
 |de.quinscape.automatontemplate.runtime.controller  | WebMVC controllers ( component-scanned) 
 |de.quinscape.automatontemplate.runtime.service     | @GraphQLLogic / general services ( component-scanned)
  
+ 
+## Spring Boot Configuration
+
+The main class `de.quinscape.automatontemplate.runtime.AutomatonTemplateApplication` imports several @Configuration 
+files from the `de.quinscape.automatontemplate.runtime.config` package that define the actual spring beans 
+forming the application infrastructure.
+
+| Configuration File             | Description 
+|--------------------------------|-------------
+| DataSourceConfiguration        | Sets up an Atomikos-JTA data-source, currently configured to Postgres via properties.   
+| GraphQLConfiguration           | Contains the configuration for the DomainQL/GraphQL schema connecting the database world and GraphQL
+| MethodSecurityConfiguration    | Prepared configuration for Spring method security, disabled by default.
+| SecurityConfiguration          | Spring Security configuration (by default requiring ROLE_USER for application URIs and ROLE_ADMIN within the (empty) /admin/** path)
+| ServiceConfiguration           | General application services (contains the chat implementation)
+| WebConfiguration               | Spring WebMVC configuration with JsViewResolver
+
+In addition to these imports there are two packages configured to be component-scanned 
+( `de.quinscape.automatontemplate.runtime.controller` and `de.quinscape.automatontemplate.runtime.service` ).
+
+Put services into either the ServiceConfiguration class or use @Component inside those two packages to auto-detection
+of components.
+
+Note that @GraphQLLogic is a spring meta annotation and thus also automatically defines spring beans in these
+packages.
+ 
+                     
 ## Database
 
 The project is configured to run off a local PostgreSQL database named "automatontemplate", accessed by a

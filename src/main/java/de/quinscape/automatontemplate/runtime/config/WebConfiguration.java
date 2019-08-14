@@ -5,14 +5,13 @@ import de.quinscape.automaton.runtime.i18n.TranslationService;
 import de.quinscape.automaton.runtime.provider.AutomatonJsViewProvider;
 import de.quinscape.automaton.runtime.provider.ProcessInjectionService;
 import de.quinscape.automaton.runtime.ws.AutomatonWebSocketHandler;
+import de.quinscape.automatontemplate.model.ChatMessageEntry;
+import de.quinscape.automatontemplate.runtime.service.ChatService;
 import de.quinscape.domainql.DomainQL;
 import de.quinscape.spring.jsview.JsViewResolver;
-import de.quinscape.spring.jsview.loader.ResourceHandle;
 import de.quinscape.spring.jsview.loader.ResourceLoader;
-import graphql.schema.GraphQLSchema;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
@@ -22,13 +21,17 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.ServletContext;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+
 
 @Configuration
 public class WebConfiguration
     implements WebMvcConfigurer
 {
+
+    private final static int LIMIT = 20;
 
     private final Environment env;
 
@@ -38,7 +41,7 @@ public class WebConfiguration
 
     private final ResourceLoader resourceLoader;
 
-    private final AutomatonWebSocketHandler automatonTestWebSocketHandler;
+    private final AutomatonWebSocketHandler automatonWebSocketHandler;
 
     private final ProcessInjectionService processInjectionService;
     private final TranslationService translationService;
@@ -46,6 +49,7 @@ public class WebConfiguration
     private final DSLContext dslContext;
 
     private final ScopeTableConfig scopeTableConfig;
+    private final ChatService chatService;
 
 
 
@@ -59,7 +63,8 @@ public class WebConfiguration
         DSLContext dslContext,
         ScopeTableConfig scopeTableConfig,
         @Lazy Optional<AutomatonWebSocketHandler> optionalSocketHandler,
-        @Lazy DomainQL domainQL
+        @Lazy DomainQL domainQL,
+        @Lazy ChatService chatService
     )
     {
         this.env = env;
@@ -67,18 +72,18 @@ public class WebConfiguration
         this.domainQL = domainQL;
         this.resourceLoader = resourceLoader;
 
-        this.automatonTestWebSocketHandler = optionalSocketHandler.orElse(null);
+        this.automatonWebSocketHandler = optionalSocketHandler.orElse(null);
         this.processInjectionService = processInjectionService;
         this.translationService = translationService;
         this.dslContext = dslContext;
         this.scopeTableConfig = scopeTableConfig;
+        this.chatService = chatService;
     }
 
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry)
     {
-        final GraphQLSchema graphQLSchema = domainQL.getGraphQLSchema();
         registry.viewResolver(
             JsViewResolver.newResolver(servletContext, "WEB-INF/template.html")
                 .withResourceLoader(resourceLoader)
@@ -91,11 +96,23 @@ public class WebConfiguration
                         domainQL,
                         processInjectionService,
                         translationService,
-                        automatonTestWebSocketHandler,
+                        automatonWebSocketHandler,
                         scopeTableConfig
                     )
                 )
+                .withViewDataProvider(
+                    ctx -> {
+                        final List<ChatMessageEntry> history = chatService.getHistory();
+                        final List<ChatMessageEntry> recentHistory = history.size() < LIMIT ? history : history.subList(
+                            history.size() - LIMIT,
+                            history.size()
+                        );
 
+                        ctx.provideViewData("chatHistory",
+                            recentHistory
+                        );
+                    }
+                )
                 .build()
         );
     }
