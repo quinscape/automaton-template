@@ -32,11 +32,11 @@
         "webpack-cli": "^3.3.6"
     },
     "dependencies": {
-        "@quinscape/automaton-js": "^0.0.15",
+        "@quinscape/automaton-js": "^0.0.16",
         "bignumber.js": "^9.0.0",
         "domainql-form": "^2.2.7",
         "history": "^4.9.0",
-        "jsview-bootstrap": "^0.1.1",
+        "jsview-bootstrap": "^0.2.0",
         "lodash.get": "^4.4.2",
         "lodash.topath": "^4.5.2",
         "mobx": "^5.13.0",
