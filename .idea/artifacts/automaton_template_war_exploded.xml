@@ -106,7 +106,7 @@
           <element id="library" level="project" name="Maven: org.apache.commons:commons-exec:1.3" />
           <element id="library" level="project" name="Maven: com.squareup.okhttp3:okhttp:3.11.0" />
           <element id="library" level="project" name="Maven: com.squareup.okio:okio:1.14.0" />
-          <element id="library" level="project" name="Maven: de.quinscape.domainql:automaton:0.1.0" />
+          <element id="library" level="project" name="Maven: de.quinscape.domainql:automaton:0.1.2" />
           <element id="library" level="project" name="Maven: com.github.ziplet:ziplet:2.3.0" />
           <element id="library" level="project" name="Maven: com.google.googlejavaformat:google-java-format:1.4" />
           <element id="library" level="project" name="Maven: com.google.errorprone:javac-shaded:9-dev-r4023-3" />
