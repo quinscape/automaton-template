@@ -768,10 +768,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@quinscape/automaton-js@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@quinscape/automaton-js/-/automaton-js-0.0.15.tgz#ceca00be26786cdcb62b304f5628bd8fe21030d0"
-  integrity sha512-d+TQFOaSPcYpHjm6mmCrJKRvLYoxHMr/DEwDZZ0gviSSEwj9LQ7lFDXm7iYCPAEJJvkYI+gFJ4ZqN1Awnh93mQ==
+"@quinscape/automaton-js@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@quinscape/automaton-js/-/automaton-js-0.0.16.tgz#3866cc89acda744139f92cb1283bf02343888cfd"
+  integrity sha512-k7Go3s2Gr5z8ZVHXe/ofTC/j8tk5AM7dnwZTw7iwN/PxrcoAbUNfxAlAIV5aWPGHpwlF1BWSNwtVOAmG0PZvEA==
   dependencies:
     classnames "^2.2.6"
     create-react-class "^15.6.3"
@@ -3008,10 +3008,10 @@ json5@^2.1.0:
   dependencies:
     minimist "^1.2.0"
 
-jsview-bootstrap@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/jsview-bootstrap/-/jsview-bootstrap-0.1.1.tgz#8598da5c297264c2133c6083e6bb99b8b5cfaa3b"
-  integrity sha512-2h+OVdLlaq1wvlhstTWrYb7CKGLNp0+vTt1MuJHLqJqxRhG1/qtseFAhUD5PxuaXPvoQlCnFK6XH9Rr3zXTsrA==
+jsview-bootstrap@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/jsview-bootstrap/-/jsview-bootstrap-0.2.0.tgz#e0a56f92abf4a1938652994696f97caf7645ca0b"
+  integrity sha512-ZAEiPzySsNlnegcopyNuPx7MZeiV/CayeRboC1fSUFlcqXI30Vdv1F5cIBRRI0P5s6hQJZqjLF6Lm+HDqkgGKw==
   dependencies:
     domready "^1.0.8"
 
