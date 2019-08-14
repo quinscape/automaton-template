@@ -29,9 +29,9 @@ import java.util.Properties;
 import static de.quinscape.automatontemplate.domain.Tables.*;
 
 @Configuration
-public class DomainConfiguration
+public class DataSourceConfiguration
 {
-    private final static Logger log = LoggerFactory.getLogger(DomainConfiguration.class);
+    private final static Logger log = LoggerFactory.getLogger(DataSourceConfiguration.class);
 
 
     // TODO: change DB property names ( see also automatontemplate-dev.properties, automatontemplate-prod.properties)
