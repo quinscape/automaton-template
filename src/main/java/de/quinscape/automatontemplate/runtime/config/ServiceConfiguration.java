@@ -1,6 +1,7 @@
 package de.quinscape.automatontemplate.runtime.config;
 
 import de.quinscape.automaton.runtime.ws.AutomatonWebSocketHandler;
+import de.quinscape.automaton.runtime.ws.AutomatonWebSocketHandlerImpl;
 import de.quinscape.automatontemplate.runtime.service.ChatMessageHandler;
 import de.quinscape.automatontemplate.runtime.service.ChatService;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class ServiceConfiguration
         ChatService chatService)
     {
 
-        final AutomatonWebSocketHandler handler = new AutomatonWebSocketHandler(
+        final AutomatonWebSocketHandler handler = new AutomatonWebSocketHandlerImpl(
             Collections.singleton(
                 new ChatMessageHandler(chatService)
             )
