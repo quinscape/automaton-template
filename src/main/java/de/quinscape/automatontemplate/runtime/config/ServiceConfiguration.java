@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ContextStoppedEvent;
+import org.springframework.context.event.EventListener;
 
+import java.io.IOException;
 import java.util.Collections;
 
 @Configuration
@@ -50,5 +53,11 @@ public class ServiceConfiguration
         return handler;
     }
 
+    @EventListener(ContextStoppedEvent.class)
+    public void onContextStopped(ContextStoppedEvent event) throws IOException
+    {
+        final AutomatonWebSocketHandler webSocketHandler = automatonWebSocketHandler(null);
+        webSocketHandler.shutDown();
+    }
 
 }
