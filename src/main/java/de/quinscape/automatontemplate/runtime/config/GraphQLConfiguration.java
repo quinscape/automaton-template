@@ -14,6 +14,8 @@ import de.quinscape.domainql.config.SourceField;
 import de.quinscape.domainql.config.TargetField;
 import de.quinscape.domainql.generic.DomainObject;
 import de.quinscape.domainql.generic.DomainObjectScalar;
+import de.quinscape.domainql.generic.GenericScalar;
+import de.quinscape.domainql.generic.GenericScalarType;
 import de.quinscape.domainql.jsonb.JSONB;
 import de.quinscape.domainql.jsonb.JSONBScalar;
 import graphql.GraphQL;
@@ -69,6 +71,7 @@ public class GraphQLConfiguration
 
             .withAdditionalScalar(DomainObject.class, DomainObjectScalar.newDomainObjectScalar())
             .withAdditionalScalar(JSONB.class, new JSONBScalar())
+            .withAdditionalScalar(GenericScalar.class, GenericScalarType.newGenericScalar())
             .withAdditionalScalar(ConditionScalar.class, ConditionType.newConditionType())
             .withAdditionalScalar(FieldExpressionScalar.class, FieldExpressionType.newFieldExpressionType())
 
