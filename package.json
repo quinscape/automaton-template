@@ -58,7 +58,7 @@
         "watch": "cross-env NODE_ENV=development webpack --debug --output-pathinfo -w",
         "test": "cross-env NODE_ENV=production BABEL_ENV=test mocha --require @babel/register -R spec src/test/js/",
         "model-to-js": "model-to-js",
-        "js-to-model": "cross-env NODE_ENV=development BABEL_ENV=analyze webpack --silent"
+        "js-to-model": "cross-env NODE_ENV=development BABEL_ENV=analyze webpack --display=minimal"
     },
     "browserslist": [
         "> 0.25%",
