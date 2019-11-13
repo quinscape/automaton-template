@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Js Test" type="mocha-javascript-test-runner">
+  <configuration default="false" name="Js Tests" type="mocha-javascript-test-runner">
     <node-interpreter>project</node-interpreter>
     <node-options>-r @babel/register</node-options>
     <mocha-package>$PROJECT_DIR$/node_modules/mocha</mocha-package>
@@ -10,8 +10,9 @@
     </envs>
     <ui>bdd</ui>
     <extra-mocha-options />
-    <test-kind>TEST_FILE</test-kind>
-    <test-file>$PROJECT_DIR$/src/test/js/test.js</test-file>
+    <test-kind>DIRECTORY</test-kind>
+    <test-directory>$PROJECT_DIR$/src/test</test-directory>
+    <recursive>true</recursive>
     <method v="2" />
   </configuration>
 </component>
