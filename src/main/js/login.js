@@ -52,7 +52,7 @@ bootstrap(
                 </div>
             </div>
         );
-    },
-    () => console.info("ready!")
+    })
+    .then(() => console.info("ready!")
 );
 
