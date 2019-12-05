@@ -1,6 +1,8 @@
 import React from "react"
 import bootstrap from "jsview-bootstrap"
-import { Icon } from "@quinscape/automaton-js";
+import { Icon } from "domainql-form";
+
+import LoginIcon from "./login.svg"
 
 bootstrap(
     function (initial) {
@@ -46,7 +48,10 @@ bootstrap(
 
                             <input type="hidden" name={csrfToken.param} value={csrfToken.value}/>
 
-                            <button type="submit" className="btn btn-primary">Submit</button>
+                            <button type="submit" className="btn btn-light">
+                                <LoginIcon width={ 40 } className="mr-1"/>
+                                Login
+                            </button>
                         </form>
                     </div>
                 </div>

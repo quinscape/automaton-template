@@ -13,6 +13,7 @@
         "@babel/preset-env": "^7.7.4",
         "@babel/preset-react": "^7.7.4",
         "@babel/register": "^7.7.4",
+        "@svgr/webpack": "^4.3.3",
         "babel-loader": "^8.0.6",
         "babel-plugin-automaton": "^0.0.14",
         "babel-plugin-espower": "^3.0.1",
