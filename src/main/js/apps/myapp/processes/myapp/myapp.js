@@ -85,7 +85,6 @@ export function initProcess(process, scope)
                                             field("id")
                                                 .eq(
                                                     value(
-                                                        "String",
                                                         t.context
                                                     )
                                                 )
