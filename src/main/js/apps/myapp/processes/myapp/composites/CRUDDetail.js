@@ -2,12 +2,15 @@ import React from "react"
 import { observer as fnObserver } from "mobx-react-lite";
 import { FormLayout } from "domainql-form";
 import FooForm from "./FooForm";
+import { useEntity } from "@quinscape/automaton-js";
 
 
 const CRUDDetail = props => {
 
     const { env } = props;
     const { scope } = env;
+
+    const entity = useEntity("Foo", scope.currentFoo.id);
 
     return (
         <React.Fragment>

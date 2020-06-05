@@ -1,8 +1,18 @@
 import React from "react"
 import { observer as fnObserver } from "mobx-react-lite";
 import { ButtonToolbar } from "reactstrap";
-import { Button, i18n, IQueryGrid as DataGrid } from "@quinscape/automaton-js"
-import { Select, Icon } from "domainql-form";
+import {
+    Button,
+    DomainActivityIndicator,
+    FilterDSL,
+    i18n,
+    IQueryGrid as DataGrid,
+    useDomainMonitor
+} from "@quinscape/automaton-js"
+import { Icon, Select } from "domainql-form";
+
+// deconstruct FilterDSL methods
+const { field, value } = FilterDSL;
 
 
 const CRUDList = props => {
@@ -10,6 +20,13 @@ const CRUDList = props => {
     const { env } = props;
 
     const { scope } = env;
+
+    const monitor = useDomainMonitor(
+        field("domainType")
+            .eq(
+                value("Foo")
+            )
+    );
 
     return (
         <React.Fragment>
@@ -67,6 +84,20 @@ const CRUDList = props => {
                     }
                 }/>
                 <DataGrid.Column name="owner.login" filter="containsIgnoreCase" heading={ i18n("owner") }/>
+                <DataGrid.Column
+                    heading={ i18n("Activity") }
+                >
+                    {
+                        foo => (
+                            <DomainActivityIndicator
+                                key={ foo.id }
+                                monitor={ monitor }
+                                domainType="Foo"
+                                id={ foo.id }
+                            />
+                        )
+                    }
+                </DataGrid.Column>
             </DataGrid>
 
         </React.Fragment>
