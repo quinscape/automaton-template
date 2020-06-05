@@ -14,7 +14,14 @@ const CRUDDetail = props => {
 
             <div className="row">
                 <div className="col">
-                    <FooForm value={ scope.currentFoo } options={{ layout: FormLayout.HORIZONTAL }}/>
+                    <FooForm
+                        key={ scope.currentFoo.id }
+                        value={ scope.currentFoo }
+                        options={{
+                            layout: FormLayout.HORIZONTAL,
+                            isolation: false
+                        }}
+                    />
                 </div>
             </div>
 

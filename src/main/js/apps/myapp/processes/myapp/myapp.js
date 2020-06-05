@@ -1,24 +1,18 @@
-import {
-    observable,
-    computed,
-    action,
-    toJS
-} from "mobx";
+import { action, observable } from "mobx";
 
 import {
-    injection,
+    backToParent,
     config,
     createDomainObject,
-    storeDomainObject,
     deleteDomainObject,
+    extractTypeData,
+    FilterDSL,
     GraphQLQuery,
-    backToParent,
-
-    FilterDSL
+    injection,
+    storeDomainObject
 } from "@quinscape/automaton-js";
 import Q_Foo from "../../queries/Q_Foo";
 import Q_FooType from "../../queries/Q_FooType";
-
 
 // deconstruct FilterDSL methods
 const { field, value } = FilterDSL;
@@ -95,7 +89,9 @@ export function initProcess(process, scope)
                                     {
                                         alert("Could not load Foo with id '" + t.context)
                                     }
-                                    return scope.updateCurrent(iQueryFoo.rows[0]);
+                                    return scope.updateCurrent(
+                                        config.inputSchema.clone(iQueryFoo.rows[0])
+                                    );
                                 });
                             }
                         }
@@ -105,7 +101,7 @@ export function initProcess(process, scope)
                     "save": {
                         action: t =>
                             storeDomainObject({
-                                ... t.context,
+                                ... extractTypeData("FooInput", t.context),
                                 ownerId:  config.auth.id || "",
                             })
                                 .then(() => scope.foos.update())
