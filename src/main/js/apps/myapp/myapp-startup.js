@@ -6,7 +6,6 @@ import Layout from "../../components/Layout";
 
 // noinspection ES6UnusedImports
 import AUTOMATON_CSS from "./automatontemplate.css"
-import ChatHistory from "../../services/ChatHistory";
 
 // set MobX configuration
 configure({
@@ -26,8 +25,6 @@ bootstrap(
                 require.context("./", true, /\.js$/),
                 initial,
                 config => {
-
-                    addConfig("chatHistory", new ChatHistory(initial.chatHistory));
 
                     config.layout = Layout;
                 }
