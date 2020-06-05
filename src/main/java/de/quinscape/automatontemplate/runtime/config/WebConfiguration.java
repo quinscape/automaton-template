@@ -2,6 +2,7 @@ package de.quinscape.automatontemplate.runtime.config;
 
 import de.quinscape.automaton.runtime.config.ScopeTableConfig;
 import de.quinscape.automaton.runtime.i18n.TranslationService;
+import de.quinscape.automaton.runtime.merge.MergeOptions;
 import de.quinscape.automaton.runtime.provider.AutomatonJsViewProvider;
 import de.quinscape.automaton.runtime.provider.ProcessInjectionService;
 import de.quinscape.automaton.runtime.ws.AutomatonWebSocketHandler;
@@ -91,7 +92,8 @@ public class WebConfiguration
                         processInjectionService,
                         translationService,
                         automatonWebSocketHandler,
-                        scopeTableConfig
+                        scopeTableConfig,
+                        MergeOptions.DEFAULT
                     )
                 )
                 .build()

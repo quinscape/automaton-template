@@ -1,15 +1,18 @@
 package de.quinscape.automatontemplate.runtime.config;
 
+import de.quinscape.automaton.runtime.domain.DomainMonitorService;
 import de.quinscape.automaton.runtime.domain.IdGenerator;
 import de.quinscape.automaton.runtime.domain.UUIDGenerator;
 import de.quinscape.automaton.runtime.domain.op.BatchStoreOperation;
 import de.quinscape.automaton.runtime.domain.op.DefaultBatchStoreOperation;
 import de.quinscape.automaton.runtime.domain.op.DefaultStoreOperation;
 import de.quinscape.automaton.runtime.domain.op.StoreOperation;
+import de.quinscape.automaton.runtime.filter.JavaFilterTransformer;
+import de.quinscape.automaton.runtime.pubsub.DefaultPubSubService;
+import de.quinscape.automaton.runtime.pubsub.PubSubMessageHandler;
+import de.quinscape.automaton.runtime.pubsub.PubSubService;
 import de.quinscape.automaton.runtime.ws.AutomatonWebSocketHandler;
 import de.quinscape.automaton.runtime.ws.DefaultAutomatonWebSocketHandler;
-import de.quinscape.automatontemplate.runtime.service.ChatMessageHandler;
-import de.quinscape.automatontemplate.runtime.service.ChatService;
 import de.quinscape.domainql.DomainQL;
 import org.jooq.DSLContext;
 import org.slf4j.Logger;
@@ -34,38 +37,39 @@ public class ServiceConfiguration
 
 
     @Autowired
-    public ServiceConfiguration(ApplicationContext applicationContext)
+    public ServiceConfiguration(
+        ApplicationContext applicationContext,
+        JavaFilterTransformer javaFilterTransformer
+    )
     {
         this.applicationContext = applicationContext;
     }
 
 
     @Bean
-    public ChatService chatService()
-    {
-        return new ChatService();
-    }
-    
-    @Bean
     public AutomatonWebSocketHandler automatonWebSocketHandler(
-        ChatService chatService)
+        PubSubService pubSubService,
+        JavaFilterTransformer javaFilterTransformer,
+        @Lazy DomainQL domainQL
+    )
     {
-
-        final AutomatonWebSocketHandler handler = new DefaultAutomatonWebSocketHandler(
-            Collections.singleton(
-                new ChatMessageHandler(chatService)
+        return new DefaultAutomatonWebSocketHandler(
+            Collections.singletonList(
+                new PubSubMessageHandler(domainQL, pubSubService, javaFilterTransformer)
             )
         );
+    }
 
-        chatService.setAutomatonWebSocketHandler(handler);
-
-        return handler;
+    @Bean
+    public PubSubService pubSubService()
+    {
+        return new DefaultPubSubService();
     }
 
     @EventListener(ContextStoppedEvent.class)
     public void onContextStopped(ContextStoppedEvent event) throws IOException
     {
-        final AutomatonWebSocketHandler webSocketHandler = automatonWebSocketHandler(null);
+        final AutomatonWebSocketHandler webSocketHandler = automatonWebSocketHandler(null, null, null);
         webSocketHandler.shutDown();
     }
 
@@ -96,6 +100,14 @@ public class ServiceConfiguration
         return new DefaultBatchStoreOperation(
             dslContext,
             domainQL
+        );
+    }
+
+    @Bean
+    public DomainMonitorService domainMonitorService()
+    {
+        return new DomainMonitorService(
+            pubSubService()
         );
     }
 

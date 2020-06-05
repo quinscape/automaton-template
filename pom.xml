@@ -81,13 +81,13 @@
         <dependency>
             <groupId>com.google.code.svenson</groupId>
             <artifactId>svenson</artifactId>
-            <version>1.5.8</version>
+            <version>1.5.12</version>
         </dependency>
 
         <dependency>
             <groupId>de.quinscape.domainql</groupId>
             <artifactId>domainql</artifactId>
-            <version>0.2.3</version>
+            <version>0.2.5</version>
         </dependency>
 
         <dependency>
@@ -181,7 +181,7 @@
         <dependency>
             <groupId>de.quinscape.domainql</groupId>
             <artifactId>automaton</artifactId>
-            <version>0.1.14</version>
+            <version>0.1.19</version>
         </dependency>
 
         <dependency>

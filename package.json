@@ -33,7 +33,7 @@
         "webpack-cli": "^3.3.10"
     },
     "dependencies": {
-        "@quinscape/automaton-js": "^0.1.0",
+        "@quinscape/automaton-js": "^0.1.1",
         "bignumber.js": "^9.0.0",
         "domainql-form": "^3.0.1",
         "history": "^4.10.1",

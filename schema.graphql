@@ -154,7 +154,7 @@ type InteractiveQueryFooType {
 "Auto-generated from AutomatontemplateLogic, AutomatonStandardLogic"
 type MutationType {
     "Deletes the domain object of the given type and with the given id."
-    deleteDomainObject(id: String!, type: String!): Boolean
+    deleteDomainObject(cascade: [String], id: GenericScalar!, type: String!): Boolean
     "Generate a new domain object id using the application specific IdGenerator implementation."
     generateDomainObjectId(count: Int = 1, domainType: String!): [GenericScalar]
     "Server-side end-point for WorkingSet.persist()"
