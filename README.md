@@ -69,7 +69,7 @@ forming the application infrastructure.
 | GraphQLConfiguration           | Contains the configuration for the DomainQL/GraphQL schema connecting the database world and GraphQL
 | MethodSecurityConfiguration    | Prepared configuration for Spring method security, disabled by default.
 | SecurityConfiguration          | Spring Security configuration (by default requiring ROLE_USER for application URIs and ROLE_ADMIN within the (empty) /admin/** path)
-| ServiceConfiguration           | General application services (contains the chat implementation)
+| ServiceConfiguration           | General application services (contains the only single @GraphQLLogic class for this example with an iQuery method)
 | WebConfiguration               | Spring WebMVC configuration with JsViewResolver
 
 In addition to these imports there are two packages configured to be component-scanned 
