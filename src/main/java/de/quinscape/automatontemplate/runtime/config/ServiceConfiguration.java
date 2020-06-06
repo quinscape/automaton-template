@@ -8,6 +8,7 @@ import de.quinscape.automaton.runtime.domain.op.DefaultBatchStoreOperation;
 import de.quinscape.automaton.runtime.domain.op.DefaultStoreOperation;
 import de.quinscape.automaton.runtime.domain.op.StoreOperation;
 import de.quinscape.automaton.runtime.filter.JavaFilterTransformer;
+import de.quinscape.automaton.runtime.merge.MergeService;
 import de.quinscape.automaton.runtime.pubsub.DefaultPubSubService;
 import de.quinscape.automaton.runtime.pubsub.PubSubMessageHandler;
 import de.quinscape.automaton.runtime.pubsub.PubSubService;
@@ -109,6 +110,12 @@ public class ServiceConfiguration
         return new DomainMonitorService(
             pubSubService()
         );
+    }
+
+    @Bean
+    public MergeService mergeService(DomainQL domainQL, DSLContext dslContext)
+    {
+        return MergeService.build(domainQL, dslContext).buildService();
     }
 
 }
