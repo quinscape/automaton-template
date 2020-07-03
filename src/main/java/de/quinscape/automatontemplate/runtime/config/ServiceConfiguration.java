@@ -1,5 +1,6 @@
 package de.quinscape.automatontemplate.runtime.config;
 
+import de.quinscape.automaton.model.js.StaticFunctionReferences;
 import de.quinscape.automaton.runtime.domain.DomainMonitorService;
 import de.quinscape.automaton.runtime.domain.IdGenerator;
 import de.quinscape.automaton.runtime.domain.UUIDGenerator;
@@ -8,17 +9,22 @@ import de.quinscape.automaton.runtime.domain.op.DefaultBatchStoreOperation;
 import de.quinscape.automaton.runtime.domain.op.DefaultStoreOperation;
 import de.quinscape.automaton.runtime.domain.op.StoreOperation;
 import de.quinscape.automaton.runtime.filter.JavaFilterTransformer;
+import de.quinscape.automaton.runtime.i18n.DefaultTranslationService;
+import de.quinscape.automaton.runtime.i18n.TranslationService;
 import de.quinscape.automaton.runtime.merge.MergeService;
 import de.quinscape.automaton.runtime.pubsub.DefaultPubSubService;
 import de.quinscape.automaton.runtime.pubsub.PubSubMessageHandler;
 import de.quinscape.automaton.runtime.pubsub.PubSubService;
 import de.quinscape.automaton.runtime.ws.AutomatonWebSocketHandler;
 import de.quinscape.automaton.runtime.ws.DefaultAutomatonWebSocketHandler;
+import de.quinscape.automatontemplate.domain.tables.pojos.AppTranslation;
 import de.quinscape.domainql.DomainQL;
+import de.quinscape.spring.jsview.loader.ResourceHandle;
 import org.jooq.DSLContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +34,8 @@ import org.springframework.context.event.EventListener;
 
 import java.io.IOException;
 import java.util.Collections;
+
+import static de.quinscape.automatontemplate.domain.Tables.*;
 
 @Configuration
 public class ServiceConfiguration
@@ -103,6 +111,22 @@ public class ServiceConfiguration
             domainQL
         );
     }
+
+
+    @Bean
+    public TranslationService translationService(
+        DSLContext dslContext,
+        @Qualifier("jsFunctionReferences") ResourceHandle<StaticFunctionReferences> jsFunctionReferencesHandle
+    )
+    {
+        return new DefaultTranslationService(
+            dslContext,
+            jsFunctionReferencesHandle,
+            APP_TRANSLATION,
+            AppTranslation.class
+        );
+    }
+
 
     @Bean
     public DomainMonitorService domainMonitorService()

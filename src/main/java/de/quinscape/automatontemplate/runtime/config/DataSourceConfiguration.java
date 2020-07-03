@@ -133,22 +133,6 @@ public class DataSourceConfiguration
 
 
     @Bean
-    public TranslationService translationService(
-        DSLContext dslContext,
-
-        @Qualifier("jsFunctionReferences")
-        ResourceHandle<StaticFunctionReferences> jsFunctionReferencesHandle
-    )
-    {
-        return new DefaultTranslationService(
-            dslContext,
-            jsFunctionReferencesHandle,
-            APP_TRANSLATION,
-            AppTranslation.class
-        );
-    }
-
-    @Bean
     public ScopeTableConfig scopeTableConfig()
     {
         return new ScopeTableConfig(
