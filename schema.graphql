@@ -71,6 +71,24 @@ type AppUserConfig {
     userId: String!
 }
 
+"Generated from public.app_version"
+type AppVersion {
+    "DB column 'created'"
+    created: Timestamp!
+    "DB column 'entity_id'"
+    entityId: String!
+    "DB column 'entity_type'"
+    entityType: String!
+    "DB column 'field_mask'"
+    fieldMask: BigInteger!
+    "DB column 'id'"
+    id: String!
+    "DB column 'owner_id'"
+    ownerId: String!
+    "DB column 'prev'"
+    prev: String
+}
+
 "The state of a column within an interactive query."
 type ColumnState {
     "True if column is enabled. Server might disabled columns."
@@ -79,6 +97,13 @@ type ColumnState {
     name: String
     "True if the column is sortable."
     sortable: Boolean
+}
+
+"Reference to a specific entity or entity version"
+type EntityReference {
+    id: GenericScalar!
+    type: String!
+    version: String
 }
 
 "Example domain type for automatontemplate"
@@ -151,14 +176,99 @@ type InteractiveQueryFooType {
     type: String
 }
 
+"A merge conflict for one entity."
+type MergeConflict {
+    "Returns true if all conflict fields are decided or if there are no conflict fields."
+    decided: Boolean
+    "True if the entity has been deleted on the other side"
+    deleted: Boolean!
+    """
+
+    Conflicted fields. Will be both conflicts on scalar fields as well as conflicts on object fields representing
+    foreign key and many-to-many conflicts and the informational/user-facing data to resolve those.
+    """
+    fields: [MergeConflictField]!
+    "Id of the entity as generic scalar"
+    id: GenericScalar!
+    "The version of the currently stored entity."
+    theirVersion: String
+    "Type of the entity."
+    type: String!
+}
+
+"A field within a merge conflict."
+type MergeConflictField {
+    """
+
+    True if the conflict is only sent for informational purposes and for the "apply" function. It marks conflicts
+    that are already resolved.
+    """
+    informational: Boolean
+    name: String!
+    "The user's value for the conflict."
+    ours: GenericScalar
+    """
+
+    In case of a pseudo conflict on a many-to-many field this contains entity references to the current set of link
+    type entities.
+    """
+    references: [EntityReference]
+    """
+
+    Field status for the conflict. If MergeOptions#isAllowAutoMerge() is enabled, this will always be MergeFieldStatus#UNDECIDED, if auto-merge
+    is disabled, the system will report back successful merges with the respective choices made.
+    """
+    status: MergeFieldStatus
+    "The currently stored value for the conflict."
+    theirs: GenericScalar
+}
+
+"Encapsulates the result of a merge operation. Used in-memory on the client-side."
+type MergeResolution {
+    "Operation selected by the user."
+    operation: MergeResolutionOperation
+    "Resolutions to apply to the working set."
+    resolutions: [MergeResolutionEntity]!
+}
+
+"Encapsulates the merge resolution for one of the entities involved. Used in-memory on the client-side."
+type MergeResolutionEntity {
+    deleted: Boolean!
+    fields: [MergeResolutionField]!
+    id: GenericScalar!
+    type: String!
+    version: String
+}
+
+"Encapsulates the merge resolution of a single field. Used in-memory on the client-side."
+type MergeResolutionField {
+    fieldType: MergeResolutionFieldType
+    "GraphQL name of the field."
+    name: String!
+    status: MergeFieldStatus!
+    "Wrapped value"
+    value: GenericScalar
+}
+
+"Encapsulates the result of a merge process, i.e. a list of domain object conflicts."
+type MergeResult {
+    conflicts: [MergeConflict]!
+    "Returns true when the merge is done because there were no conflicts."
+    done: Boolean
+}
+
 "Auto-generated from AutomatontemplateLogic, AutomatonStandardLogic"
 type MutationType {
     "Deletes the domain object of the given type and with the given id."
     deleteDomainObject(cascade: [String], id: GenericScalar!, type: String!): Boolean
     "Generate a new domain object id using the application specific IdGenerator implementation."
     generateDomainObjectId(count: Int = 1, domainType: String!): [GenericScalar]
+    "Server-side end-point for WorkingSet.merge()"
+    mergeWorkingSet(changes: [EntityChangeInput]!, deletions: [EntityDeletionInput]!, mergeConfig: MergeConfigInput): MergeResult
     "Server-side end-point for WorkingSet.persist()"
-    persistWorkingSet(deletions: [WorkingSetDeletionInput]!, domainObjects: [DomainObject]!): Boolean
+    persistWorkingSet(deletions: [EntityDeletionInput]!, domainObjects: [DomainObject]!): Boolean
+    "Dummy end-point to define the types involved in resolving a merge conflict, which happens on the client side only. This is only exists for documentation purposes."
+    resolveMerge(mergeConfig: MergeConfigInput, mergeConflict: MergeConflictInput): MergeResolution
     "Stores a single domain object of any type. Note that you might have to manually register an input type."
     storeDomainObject(domainObject: DomainObject!): GenericScalar
     "Stores a list of domain object of any type. Note that you might have to manually register an input type."
@@ -171,10 +281,10 @@ type MutationType {
 type QueryConfig {
     "FilterDSL condition graph or null"
     condition: Condition
-    "Current page within the paginated results"
-    currentPage: Int
     "Optional unique query identifier. Useful for server-side query implementations."
     id: String
+    "Current offset within the paginated results. The number of rows to skip in the results."
+    offset: Int
     "Maximum number of paginated results.,"
     pageSize: Int
     "Current sort order for the query."
@@ -183,12 +293,53 @@ type QueryConfig {
 
 "Auto-generated from AutomatontemplateLogic, AutomatonStandardLogic"
 type QueryType {
+    getDomainTypeIndex(condition: Condition, domainType: String!, field: String!): [String]
     "Default implementation of an InteractiveQuery based query for type AppUser."
     iQueryAppUser(config: QueryConfigInput!): InteractiveQueryAppUser
     "Default implementation of an InteractiveQuery based query for type Foo."
     iQueryFoo(config: QueryConfigInput!): InteractiveQueryFoo
     "Default implementation of an InteractiveQuery based query for type FooType."
     iQueryFooType(config: QueryConfigInput!): InteractiveQueryFooType
+}
+
+enum MergeFieldStatus {
+    "We took the original value."
+    OURS
+    "We took over the current database value"
+    THEIRS
+    "User has not yet decided."
+    UNDECIDED
+    "The user specified an alternate third value."
+    VALUE
+}
+
+enum MergeResolutionFieldType {
+    "Normal input field"
+    FIELD
+    "Foreign key raw key id field"
+    FK_KEY
+    "Embedded object for a foreign key"
+    FK_OBJECT
+    "Ignored field"
+    IGNORE
+    "Embedded list of objects for a m-to-n relation"
+    MANY_TO_MANY
+}
+
+"User selected operation for a merge"
+enum MergeResolutionOperation {
+    """
+
+    The merge resolutions are to be applied without executing the final store operation. The user can inspect the merge
+    result in the original form context.
+    """
+    APPLY
+    "The store operation was canceled. The working set remains as-is."
+    CANCEL
+    "The whole process is aborted and the current working set data is to be discarded."
+    DISCARD
+    "Merge resolutions are applied to the working set and the final store operation is performed."
+    STORE
 }
 
 "Automaton/Spring Security user object"
@@ -200,6 +351,43 @@ input AppUserInput {
     login: String!
     password: String!
     roles: String!
+}
+
+"Encapsulates multiple changes for a single entity / domain object."
+input EntityChangeInput {
+    "List of changes"
+    changes: [EntityFieldChangeInput]!
+    "Id value of the entity/domain object"
+    id: GenericScalar!
+    new: Boolean
+    "Domain type of the object"
+    type: String!
+    "Version of the entity/domain object"
+    version: String
+}
+
+"Encapsulates the type and id of on object deletion in a working set."
+input EntityDeletionInput {
+    "Id of deleted object as generic scalar."
+    id: GenericScalar!
+    "Domain type of deleted object"
+    type: String!
+    version: String
+}
+
+"A change for one domain object field"
+input EntityFieldChangeInput {
+    "Field the change applies to"
+    field: String!
+    "Generic scalar value of the field. Must match the underlying GraphQL field type."
+    value: GenericScalar
+}
+
+"Reference to a specific entity or entity version"
+input EntityReferenceInput {
+    id: GenericScalar!
+    type: String!
+    version: String
 }
 
 "Example domain type for automatontemplate"
@@ -220,28 +408,102 @@ input FooTypeInput {
     ordinal: Int!
 }
 
+"Generated for de.quinscape.automaton.model.merge.MergeConfig"
+input MergeConfigInput {
+    allowApply: Boolean
+    allowDiscard: Boolean
+    typeConfigs: [MergeTypeConfigInput]!
+}
+
+"A field within a merge conflict."
+input MergeConflictFieldInput {
+    """
+
+    True if the conflict is only sent for informational purposes and for the "apply" function. It marks conflicts
+    that are already resolved.
+    """
+    informational: Boolean
+    name: String!
+    "The user's value for the conflict."
+    ours: GenericScalar
+    """
+
+    In case of a pseudo conflict on a many-to-many field this contains entity references to the current set of link
+    type entities.
+    """
+    references: [EntityReferenceInput]
+    """
+
+    Field status for the conflict. If MergeOptions#isAllowAutoMerge() is enabled, this will always be MergeFieldStatus#UNDECIDED, if auto-merge
+    is disabled, the system will report back successful merges with the respective choices made.
+    """
+    status: MergeFieldStatus
+    "The currently stored value for the conflict."
+    theirs: GenericScalar
+}
+
+"A merge conflict for one entity."
+input MergeConflictInput {
+    "Returns true if all conflict fields are decided or if there are no conflict fields."
+    decided: Boolean
+    "True if the entity has been deleted on the other side"
+    deleted: Boolean!
+    """
+
+    Conflicted fields. Will be both conflicts on scalar fields as well as conflicts on object fields representing
+    foreign key and many-to-many conflicts and the informational/user-facing data to resolve those.
+    """
+    fields: [MergeConflictFieldInput]!
+    "Id of the entity as generic scalar"
+    id: GenericScalar!
+    "The version of the currently stored entity."
+    theirVersion: String
+    "Type of the entity."
+    type: String!
+}
+
+"Generated for de.quinscape.automaton.model.merge.MergeGroup"
+input MergeGroupInput {
+    fields: [String]!
+}
+
+input MergeTypeConfigInput {
+    """
+
+    List of fields that are ignored in the merge, i.e. the last value always wins. This is useful for
+    meta-data fields like creation time or change author
+    """
+    ignored: [String]
+    """
+
+    List of field groups are that only merged together. A change in one field of a merge-group always creates a
+    conflict
+    for the whole group.
+    """
+    mergeGroups: [MergeGroupInput]
+    name: String!
+}
+
 "Encapsulates all parameters of an interactive query."
 input QueryConfigInput {
     "FilterDSL condition graph or null"
     condition: Condition
-    "Current page within the paginated results"
-    currentPage: Int
     "Optional unique query identifier. Useful for server-side query implementations."
     id: String
+    "Current offset within the paginated results. The number of rows to skip in the results."
+    offset: Int
     "Maximum number of paginated results.,"
     pageSize: Int
     "Current sort order for the query."
     sortFields: [FieldExpression]
 }
 
-"Encapsulates the type and id of on object deletion in a working set."
-input WorkingSetDeletionInput {
-    "Id of deleted object as generic scalar."
-    id: GenericScalar
-    "Domain type of deleted object"
-    type: String
-}
 
+"Map graph representing a JOOQ field expression"
+scalar FieldExpression
+
+"Built-in java.math.BigInteger"
+scalar BigInteger
 
 "SQL timestamp equivalent"
 scalar Timestamp
@@ -254,9 +516,6 @@ scalar Condition
 
 "Postgresql jsonb type equivalent"
 scalar JSONB
-
-"Map graph representing a JOOQ field expression"
-scalar FieldExpression
 
 "Container for generic domain objects as scalar"
 scalar DomainObject

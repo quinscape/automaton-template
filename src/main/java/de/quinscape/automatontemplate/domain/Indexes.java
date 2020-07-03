@@ -9,6 +9,7 @@ import de.quinscape.automatontemplate.domain.tables.AppLogin;
 import de.quinscape.automatontemplate.domain.tables.AppTranslation;
 import de.quinscape.automatontemplate.domain.tables.AppUser;
 import de.quinscape.automatontemplate.domain.tables.AppUserConfig;
+import de.quinscape.automatontemplate.domain.tables.AppVersion;
 import de.quinscape.automatontemplate.domain.tables.Foo;
 import de.quinscape.automatontemplate.domain.tables.FooType;
 
@@ -43,6 +44,7 @@ public class Indexes {
     public static final Index PK_APP_USER = Indexes0.PK_APP_USER;
     public static final Index UC_APP_USER_LOGIN = Indexes0.UC_APP_USER_LOGIN;
     public static final Index PK_APP_USER_CONFIG = Indexes0.PK_APP_USER_CONFIG;
+    public static final Index PK_APP_VERSION = Indexes0.PK_APP_VERSION;
     public static final Index PK_FOO = Indexes0.PK_FOO;
     public static final Index FOO_TYPE_NAME_KEY = Indexes0.FOO_TYPE_NAME_KEY;
     public static final Index PK_FOO_TYPE = Indexes0.PK_FOO_TYPE;
@@ -59,6 +61,7 @@ public class Indexes {
         public static Index PK_APP_USER = Internal.createIndex("pk_app_user", AppUser.APP_USER, new OrderField[] { AppUser.APP_USER.ID }, true);
         public static Index UC_APP_USER_LOGIN = Internal.createIndex("uc_app_user_login", AppUser.APP_USER, new OrderField[] { AppUser.APP_USER.LOGIN }, true);
         public static Index PK_APP_USER_CONFIG = Internal.createIndex("pk_app_user_config", AppUserConfig.APP_USER_CONFIG, new OrderField[] { AppUserConfig.APP_USER_CONFIG.LOGIN }, true);
+        public static Index PK_APP_VERSION = Internal.createIndex("pk_app_version", AppVersion.APP_VERSION, new OrderField[] { AppVersion.APP_VERSION.ID }, true);
         public static Index PK_FOO = Internal.createIndex("pk_foo", Foo.FOO, new OrderField[] { Foo.FOO.ID }, true);
         public static Index FOO_TYPE_NAME_KEY = Internal.createIndex("foo_type_name_key", FooType.FOO_TYPE, new OrderField[] { FooType.FOO_TYPE.NAME }, true);
         public static Index PK_FOO_TYPE = Internal.createIndex("pk_foo_type", FooType.FOO_TYPE, new OrderField[] { FooType.FOO_TYPE.ORDINAL }, true);

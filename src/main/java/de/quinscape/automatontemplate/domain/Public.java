@@ -9,6 +9,7 @@ import de.quinscape.automatontemplate.domain.tables.AppLogin;
 import de.quinscape.automatontemplate.domain.tables.AppTranslation;
 import de.quinscape.automatontemplate.domain.tables.AppUser;
 import de.quinscape.automatontemplate.domain.tables.AppUserConfig;
+import de.quinscape.automatontemplate.domain.tables.AppVersion;
 import de.quinscape.automatontemplate.domain.tables.Foo;
 import de.quinscape.automatontemplate.domain.tables.FooType;
 
@@ -36,7 +37,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -2085488656;
+    private static final long serialVersionUID = -992148316;
 
     /**
      * The reference instance of <code>public</code>
@@ -67,6 +68,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.app_user_config</code>.
      */
     public final AppUserConfig APP_USER_CONFIG = de.quinscape.automatontemplate.domain.tables.AppUserConfig.APP_USER_CONFIG;
+
+    /**
+     * The table <code>public.app_version</code>.
+     */
+    public final AppVersion APP_VERSION = de.quinscape.automatontemplate.domain.tables.AppVersion.APP_VERSION;
 
     /**
      * The table <code>public.foo</code>.
@@ -108,6 +114,7 @@ public class Public extends SchemaImpl {
             AppTranslation.APP_TRANSLATION,
             AppUser.APP_USER,
             AppUserConfig.APP_USER_CONFIG,
+            AppVersion.APP_VERSION,
             Foo.FOO,
             FooType.FOO_TYPE);
     }

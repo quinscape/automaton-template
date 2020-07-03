@@ -9,6 +9,7 @@ import de.quinscape.automatontemplate.domain.tables.AppLogin;
 import de.quinscape.automatontemplate.domain.tables.AppTranslation;
 import de.quinscape.automatontemplate.domain.tables.AppUser;
 import de.quinscape.automatontemplate.domain.tables.AppUserConfig;
+import de.quinscape.automatontemplate.domain.tables.AppVersion;
 import de.quinscape.automatontemplate.domain.tables.Foo;
 import de.quinscape.automatontemplate.domain.tables.FooType;
 
@@ -52,6 +53,11 @@ public class Tables {
      * The table <code>public.app_user_config</code>.
      */
     public static final AppUserConfig APP_USER_CONFIG = de.quinscape.automatontemplate.domain.tables.AppUserConfig.APP_USER_CONFIG;
+
+    /**
+     * The table <code>public.app_version</code>.
+     */
+    public static final AppVersion APP_VERSION = de.quinscape.automatontemplate.domain.tables.AppVersion.APP_VERSION;
 
     /**
      * The table <code>public.foo</code>.
