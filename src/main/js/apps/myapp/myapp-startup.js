@@ -6,6 +6,7 @@ import Layout from "../../components/Layout";
 
 // noinspection ES6UnusedImports
 import AUTOMATON_CSS from "./automatontemplate.css"
+import { FormContext } from "domainql-form";
 
 // set MobX configuration
 configure({
@@ -25,6 +26,8 @@ bootstrap(
                 require.context("./", true, /\.js$/),
                 initial,
                 config => {
+
+                    new FormContext(config.inputSchema).useAsDefault();
 
                     config.layout = Layout;
                 }

@@ -1,6 +1,11 @@
 package de.quinscape.automatontemplate.runtime.config;
 
 import de.quinscape.automaton.model.js.StaticFunctionReferences;
+import de.quinscape.automaton.runtime.attachment.AttachmentRepository;
+import de.quinscape.automaton.runtime.attachment.DatabaseAttachmentContentRepository;
+import de.quinscape.automaton.runtime.attachment.DefaultAttachmentRepository;
+import de.quinscape.automaton.runtime.data.FilterContextConfiguration;
+import de.quinscape.automaton.runtime.data.FilterContextRegistry;
 import de.quinscape.automaton.runtime.domain.DomainMonitorService;
 import de.quinscape.automaton.runtime.domain.IdGenerator;
 import de.quinscape.automaton.runtime.domain.UUIDGenerator;
@@ -11,28 +16,24 @@ import de.quinscape.automaton.runtime.domain.op.StoreOperation;
 import de.quinscape.automaton.runtime.filter.JavaFilterTransformer;
 import de.quinscape.automaton.runtime.i18n.DefaultTranslationService;
 import de.quinscape.automaton.runtime.i18n.TranslationService;
-import de.quinscape.automaton.runtime.merge.MergeService;
 import de.quinscape.automaton.runtime.pubsub.DefaultPubSubService;
 import de.quinscape.automaton.runtime.pubsub.PubSubMessageHandler;
 import de.quinscape.automaton.runtime.pubsub.PubSubService;
-import de.quinscape.automaton.runtime.ws.AutomatonWebSocketHandler;
+import de.quinscape.automaton.runtime.userinfo.IQueryUserInfoProvider;
+import de.quinscape.automaton.runtime.userinfo.UserInfoService;
 import de.quinscape.automaton.runtime.ws.DefaultAutomatonWebSocketHandler;
 import de.quinscape.automatontemplate.domain.tables.pojos.AppTranslation;
 import de.quinscape.domainql.DomainQL;
+import de.quinscape.spring.jsview.loader.FileResourceLoader;
 import de.quinscape.spring.jsview.loader.ResourceHandle;
 import org.jooq.DSLContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.event.ContextStoppedEvent;
-import org.springframework.context.event.EventListener;
 
-import java.io.IOException;
 import java.util.Collections;
 
 import static de.quinscape.automatontemplate.domain.Tables.*;
@@ -42,45 +43,9 @@ public class ServiceConfiguration
 {
     private final static Logger log = LoggerFactory.getLogger(ServiceConfiguration.class);
 
-    private final ApplicationContext applicationContext;
 
+    private FileResourceLoader externalResourceLoader;
 
-    @Autowired
-    public ServiceConfiguration(
-        ApplicationContext applicationContext,
-        JavaFilterTransformer javaFilterTransformer
-    )
-    {
-        this.applicationContext = applicationContext;
-    }
-
-
-    @Bean
-    public AutomatonWebSocketHandler automatonWebSocketHandler(
-        PubSubService pubSubService,
-        JavaFilterTransformer javaFilterTransformer,
-        @Lazy DomainQL domainQL
-    )
-    {
-        return new DefaultAutomatonWebSocketHandler(
-            Collections.singletonList(
-                new PubSubMessageHandler(domainQL, pubSubService, javaFilterTransformer)
-            )
-        );
-    }
-
-    @Bean
-    public PubSubService pubSubService()
-    {
-        return new DefaultPubSubService();
-    }
-
-    @EventListener(ContextStoppedEvent.class)
-    public void onContextStopped(ContextStoppedEvent event) throws IOException
-    {
-        final AutomatonWebSocketHandler webSocketHandler = automatonWebSocketHandler(null, null, null);
-        webSocketHandler.shutDown();
-    }
 
     @Bean
     public IdGenerator uuidGenerator()
@@ -114,9 +79,39 @@ public class ServiceConfiguration
 
 
     @Bean
+    public DefaultAutomatonWebSocketHandler automatonWebSocketHandler(
+        PubSubService pubSubService,
+        JavaFilterTransformer javaFilterTransformer,
+        @Lazy DomainQL domainQL
+    )
+    {
+        return new DefaultAutomatonWebSocketHandler(
+            Collections.singletonList(
+                new PubSubMessageHandler(domainQL, pubSubService, javaFilterTransformer)
+            )
+        );
+    }
+
+    @Bean
+    public PubSubService pubSubService(FilterContextRegistry registry)
+    {
+        return new DefaultPubSubService(registry);
+    }
+
+    @Bean
+    public DomainMonitorService domainMonitorService(PubSubService pubSubService)
+    {
+        return new DomainMonitorService(
+            pubSubService
+        );
+    }
+
+    @Bean
     public TranslationService translationService(
         DSLContext dslContext,
-        @Qualifier("jsFunctionReferences") ResourceHandle<StaticFunctionReferences> jsFunctionReferencesHandle
+
+        @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") @Qualifier("jsFunctionReferences")
+            ResourceHandle<StaticFunctionReferences> jsFunctionReferencesHandle
     )
     {
         return new DefaultTranslationService(
@@ -127,19 +122,75 @@ public class ServiceConfiguration
         );
     }
 
+    @Bean
+    public FilterContextConfiguration filterContextConfiguration(DSLContext dslContext)
+    {
+        return registry -> {
+            registry.register("param","https://quinscape.de");
+            registry.register("userCount", ctx -> dslContext.selectCount().from(APP_USER).fetchOne().value1());
+        };
+    }
 
     @Bean
-    public DomainMonitorService domainMonitorService()
+    public UserInfoService userInfoService(
+        @Lazy DomainQL domainQL
+    )
     {
-        return new DomainMonitorService(
-            pubSubService()
+        return new UserInfoService(
+            new IQueryUserInfoProvider(
+                domainQL,
+                // language=GraphQL
+                "query getUserInfo($config: QueryConfigInput!)\n" +
+                "{\n" +
+                "    iQueryAppUser(config: $config)\n" +
+                "    {\n" +
+                "        type" +
+                    "        \n" +
+                    "        rows{\n" +
+                "            id\n" +
+                "            created\n" +
+                "            lastLogin\n" +
+                "            foos{\n" +
+                "                name\n" +
+                "                created\n" +
+                "            }\n" +
+                "        }\n"    +
+                "    }\n" +
+                "}"
+            )
         );
     }
 
-    @Bean
-    public MergeService mergeService(DomainQL domainQL, DSLContext dslContext)
-    {
-        return MergeService.build(domainQL, dslContext).buildService();
-    }
+// Alternative: File based attachment repository
+//    @Bean
+//    public AttachmentRepository attachmentRepository(
+//        DSLContext dslContext,
+//        @Lazy DomainQL domainQL,
+//        @Value("${automatontest.attachments}") String attachmentDirectory
+//    )
+//    {
+//        return new DefaultAttachmentRepository(
+//            dslContext,
+//            domainQL,
+//            new FileBasedAttachmentContentRepository(
+//                new File(attachmentDirectory)
+//            )
+//        );
+//    }
 
+    @Bean
+    public AttachmentRepository attachmentRepository(
+        DSLContext dslContext,
+        @Lazy DomainQL domainQL
+    )
+    {
+        return new DefaultAttachmentRepository(
+            dslContext,
+            domainQL,
+            new DatabaseAttachmentContentRepository(
+                dslContext,
+                domainQL
+            )
+        );
+    }
 }

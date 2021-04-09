@@ -1,8 +1,8 @@
 package de.quinscape.automatontemplate.runtime.config;
 
+import de.quinscape.automaton.runtime.config.AutomatonCSRFExceptions;
 import de.quinscape.automaton.runtime.auth.AppAuthenticationService;
 import de.quinscape.automaton.runtime.auth.DefaultPersistentTokenRepository;
-import de.quinscape.automaton.runtime.config.AutomatonCSRFExceptions;
 import de.quinscape.automaton.runtime.controller.GraphQLController;
 import de.quinscape.automatontemplate.domain.tables.pojos.AppLogin;
 import de.quinscape.automatontemplate.domain.tables.pojos.AppUser;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,7 +29,7 @@ public class SecurityConfiguration
 
     private final DSLContext dslContext;
 
-    private final boolean devCsrfExceptions;
+    private final boolean crsfDevExceptions;
 
 
     private final static String[] PUBLIC_URIS = new String[]
@@ -36,22 +37,21 @@ public class SecurityConfiguration
             "/index.jsp",
             "/error",
             "/js/**",
-            GraphQLController.GRAPHQL_URI,
-            GraphQLController.GRAPHQL_DEV_URI,
             "/css/**",
-            "/webfonts/**"
+            "/webfonts/**",
+            "/_dev/**"
         };
 
 
     @Autowired
     public SecurityConfiguration(
         DSLContext dslContext,
-        @Value("${automatontemplate.graphql.dev:false}")
-        boolean devCsrfExceptions
+        @Value("${automatontest.crsf.dev:false}")
+        boolean crsfDevExceptions
     )
     {
         this.dslContext = dslContext;
-        this.devCsrfExceptions = devCsrfExceptions;
+        this.crsfDevExceptions = crsfDevExceptions;
     }
 
 
@@ -72,7 +72,7 @@ public class SecurityConfiguration
 
             .and()
                 .formLogin()
-                    .loginPage("/login")
+                    .loginPage("/v/v-login/")
                     .loginProcessingUrl("/login_check")
                     .defaultSuccessUrl("/shipping/")
                     .permitAll()
@@ -81,7 +81,7 @@ public class SecurityConfiguration
             // exempt GRAPHQL_DEV_URI from CSRF requirements if allowDevGraphQLAccess is set
             .csrf()
                 .requireCsrfProtectionMatcher(
-                    new AutomatonCSRFExceptions(devCsrfExceptions)
+                    new AutomatonCSRFExceptions(crsfDevExceptions)
                 )
             .and()
             .logout()

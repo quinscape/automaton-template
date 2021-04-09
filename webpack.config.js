@@ -23,7 +23,7 @@ module.exports = {
     mode: process.env.NODE_ENV,
     entry: {
         "myapp": "./src/main/js/apps/myapp/myapp-startup.js",
-        "login": "./src/main/js/login.js",
+        "v-login": "./src/main/js/login.js",
     },
 
     devtool: "source-map",

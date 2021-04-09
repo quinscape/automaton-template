@@ -12,10 +12,4 @@ public class JsEntryPointController
     {
         return "myapp";
     }
-
-    @RequestMapping("/login")
-    public String serveLogin()
-    {
-        return "login";
-    }
 }

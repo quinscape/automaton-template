@@ -1,14 +1,12 @@
 package de.quinscape.automatontemplate.runtime.config;
 
-import de.quinscape.automaton.runtime.config.ScopeTableConfig;
-import de.quinscape.automaton.runtime.i18n.TranslationService;
-import de.quinscape.automaton.runtime.merge.MergeOptions;
+import de.quinscape.automaton.runtime.provider.AlternateStyleProvider;
 import de.quinscape.automaton.runtime.provider.AutomatonJsViewProvider;
-import de.quinscape.automaton.runtime.provider.ProcessInjectionService;
-import de.quinscape.automaton.runtime.ws.AutomatonWebSocketHandler;
+import de.quinscape.automaton.runtime.provider.StyleSheetDefinition;
 import de.quinscape.domainql.DomainQL;
 import de.quinscape.spring.jsview.JsViewResolver;
 import de.quinscape.spring.jsview.loader.ResourceLoader;
+import graphql.schema.GraphQLSchema;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -20,16 +18,14 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.ServletContext;
-import java.util.Optional;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-
 
 @Configuration
 public class WebConfiguration
     implements WebMvcConfigurer
 {
 
-    private final static int LIMIT = 20;
 
     private final Environment env;
 
@@ -39,61 +35,51 @@ public class WebConfiguration
 
     private final ResourceLoader resourceLoader;
 
-    private final AutomatonWebSocketHandler automatonWebSocketHandler;
-
-    private final ProcessInjectionService processInjectionService;
-    private final TranslationService translationService;
-
     private final DSLContext dslContext;
 
-    private final ScopeTableConfig scopeTableConfig;
-
-
+    private final AutomatonJsViewProvider automatonJsViewProvider;
 
     @Autowired
     public WebConfiguration(
         Environment env,
         ServletContext servletContext,
         ResourceLoader resourceLoader,
-        ProcessInjectionService processInjectionService,
-        TranslationService translationService,
+        @Lazy DomainQL domainQL,
         DSLContext dslContext,
-        ScopeTableConfig scopeTableConfig,
-        @Lazy Optional<AutomatonWebSocketHandler> optionalSocketHandler,
-        @Lazy DomainQL domainQL
+        AutomatonJsViewProvider automatonJsViewProvider
     )
     {
         this.env = env;
         this.servletContext = servletContext;
+
         this.domainQL = domainQL;
         this.resourceLoader = resourceLoader;
-
-        this.automatonWebSocketHandler = optionalSocketHandler.orElse(null);
-        this.processInjectionService = processInjectionService;
-        this.translationService = translationService;
         this.dslContext = dslContext;
-        this.scopeTableConfig = scopeTableConfig;
+        this.automatonJsViewProvider = automatonJsViewProvider;
     }
 
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry)
     {
+        final GraphQLSchema graphQLSchema = domainQL.getGraphQLSchema();
         registry.viewResolver(
-            JsViewResolver.newResolver(servletContext, "WEB-INF/template.html")
+            JsViewResolver.newResolver(servletContext, "WEB-INF/template-alternate-styles.html")
                 .withResourceLoader(resourceLoader)
 
                 // Process injections and general miscellaneous data we would normally
                 // inject by hand in a Spring-JsView application
                 .withViewDataProvider(
-                    new AutomatonJsViewProvider(
-                        dslContext,
-                        domainQL,
-                        processInjectionService,
-                        translationService,
-                        automatonWebSocketHandler,
-                        scopeTableConfig,
-                        MergeOptions.DEFAULT
+                    automatonJsViewProvider
+                )
+
+                .withViewDataProvider(
+                    new AlternateStyleProvider(
+                        servletContext.getContextPath(),
+                        Arrays.asList(
+                            new StyleSheetDefinition("QS", "/css/bootstrap-automaton.min.css"),
+                            new StyleSheetDefinition("QS condensed", "/css/bootstrap-automaton-condensed.min.css")
+                        )
                     )
                 )
                 .build()
