@@ -4,6 +4,8 @@
 package de.quinscape.automatontemplate.domain;
 
 
+import de.quinscape.automatontemplate.domain.tables.AppAttachment;
+import de.quinscape.automatontemplate.domain.tables.AppAttachmentData;
 import de.quinscape.automatontemplate.domain.tables.AppConfig;
 import de.quinscape.automatontemplate.domain.tables.AppLogin;
 import de.quinscape.automatontemplate.domain.tables.AppTranslation;
@@ -37,12 +39,22 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -992148316;
+    private static final long serialVersionUID = -1695325832;
 
     /**
      * The reference instance of <code>public</code>
      */
     public static final Public PUBLIC = new Public();
+
+    /**
+     * The table <code>public.app_attachment</code>.
+     */
+    public final AppAttachment APP_ATTACHMENT = de.quinscape.automatontemplate.domain.tables.AppAttachment.APP_ATTACHMENT;
+
+    /**
+     * The table <code>public.app_attachment_data</code>.
+     */
+    public final AppAttachmentData APP_ATTACHMENT_DATA = de.quinscape.automatontemplate.domain.tables.AppAttachmentData.APP_ATTACHMENT_DATA;
 
     /**
      * The table <code>public.app_config</code>.
@@ -109,6 +121,8 @@ public class Public extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
+            AppAttachment.APP_ATTACHMENT,
+            AppAttachmentData.APP_ATTACHMENT_DATA,
             AppConfig.APP_CONFIG,
             AppLogin.APP_LOGIN,
             AppTranslation.APP_TRANSLATION,

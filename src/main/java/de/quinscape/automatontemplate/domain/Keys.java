@@ -4,6 +4,8 @@
 package de.quinscape.automatontemplate.domain;
 
 
+import de.quinscape.automatontemplate.domain.tables.AppAttachment;
+import de.quinscape.automatontemplate.domain.tables.AppAttachmentData;
 import de.quinscape.automatontemplate.domain.tables.AppConfig;
 import de.quinscape.automatontemplate.domain.tables.AppLogin;
 import de.quinscape.automatontemplate.domain.tables.AppTranslation;
@@ -12,6 +14,8 @@ import de.quinscape.automatontemplate.domain.tables.AppUserConfig;
 import de.quinscape.automatontemplate.domain.tables.AppVersion;
 import de.quinscape.automatontemplate.domain.tables.Foo;
 import de.quinscape.automatontemplate.domain.tables.FooType;
+import de.quinscape.automatontemplate.domain.tables.records.AppAttachmentDataRecord;
+import de.quinscape.automatontemplate.domain.tables.records.AppAttachmentRecord;
 import de.quinscape.automatontemplate.domain.tables.records.AppConfigRecord;
 import de.quinscape.automatontemplate.domain.tables.records.AppLoginRecord;
 import de.quinscape.automatontemplate.domain.tables.records.AppTranslationRecord;
@@ -51,6 +55,9 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<AppAttachmentRecord> PK_APP_ATTACHMENT = UniqueKeys0.PK_APP_ATTACHMENT;
+    public static final UniqueKey<AppAttachmentDataRecord> PK_APP_ATTACHMENT_DATA = UniqueKeys0.PK_APP_ATTACHMENT_DATA;
+    public static final UniqueKey<AppAttachmentDataRecord> UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID = UniqueKeys0.UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID;
     public static final UniqueKey<AppConfigRecord> PK_APP_CONFIG = UniqueKeys0.PK_APP_CONFIG;
     public static final UniqueKey<AppLoginRecord> PK_APP_LOGIN = UniqueKeys0.PK_APP_LOGIN;
     public static final UniqueKey<AppTranslationRecord> PK_APP_TRANSLATION = UniqueKeys0.PK_APP_TRANSLATION;
@@ -67,6 +74,7 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<AppAttachmentDataRecord, AppAttachmentRecord> APP_ATTACHMENT_DATA__FK_APP_ATTACHMENT_DATA_ATTACHMENT_ID = ForeignKeys0.APP_ATTACHMENT_DATA__FK_APP_ATTACHMENT_DATA_ATTACHMENT_ID;
     public static final ForeignKey<AppUserConfigRecord, AppUserRecord> APP_USER_CONFIG__FK_APP_USER_CONFIG_USER_ID = ForeignKeys0.APP_USER_CONFIG__FK_APP_USER_CONFIG_USER_ID;
     public static final ForeignKey<AppVersionRecord, AppUserRecord> APP_VERSION__FK_APP_VERSION_OWNER_ID = ForeignKeys0.APP_VERSION__FK_APP_VERSION_OWNER_ID;
     public static final ForeignKey<FooRecord, FooTypeRecord> FOO__FK_FOO_TYPE_ID = ForeignKeys0.FOO__FK_FOO_TYPE_ID;
@@ -77,6 +85,9 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class UniqueKeys0 {
+        public static final UniqueKey<AppAttachmentRecord> PK_APP_ATTACHMENT = Internal.createUniqueKey(AppAttachment.APP_ATTACHMENT, "pk_app_attachment", AppAttachment.APP_ATTACHMENT.ID);
+        public static final UniqueKey<AppAttachmentDataRecord> PK_APP_ATTACHMENT_DATA = Internal.createUniqueKey(AppAttachmentData.APP_ATTACHMENT_DATA, "pk_app_attachment_data", AppAttachmentData.APP_ATTACHMENT_DATA.ID);
+        public static final UniqueKey<AppAttachmentDataRecord> UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID = Internal.createUniqueKey(AppAttachmentData.APP_ATTACHMENT_DATA, "uc_app_attachment_data_attachment_id", AppAttachmentData.APP_ATTACHMENT_DATA.ATTACHMENT_ID);
         public static final UniqueKey<AppConfigRecord> PK_APP_CONFIG = Internal.createUniqueKey(AppConfig.APP_CONFIG, "pk_app_config", AppConfig.APP_CONFIG.NAME);
         public static final UniqueKey<AppLoginRecord> PK_APP_LOGIN = Internal.createUniqueKey(AppLogin.APP_LOGIN, "pk_app_login", AppLogin.APP_LOGIN.SERIES);
         public static final UniqueKey<AppTranslationRecord> PK_APP_TRANSLATION = Internal.createUniqueKey(AppTranslation.APP_TRANSLATION, "pk_app_translation", AppTranslation.APP_TRANSLATION.ID);
@@ -91,6 +102,7 @@ public class Keys {
     }
 
     private static class ForeignKeys0 {
+        public static final ForeignKey<AppAttachmentDataRecord, AppAttachmentRecord> APP_ATTACHMENT_DATA__FK_APP_ATTACHMENT_DATA_ATTACHMENT_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_APP_ATTACHMENT, AppAttachmentData.APP_ATTACHMENT_DATA, "app_attachment_data__fk_app_attachment_data_attachment_id", AppAttachmentData.APP_ATTACHMENT_DATA.ATTACHMENT_ID);
         public static final ForeignKey<AppUserConfigRecord, AppUserRecord> APP_USER_CONFIG__FK_APP_USER_CONFIG_USER_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_APP_USER, AppUserConfig.APP_USER_CONFIG, "app_user_config__fk_app_user_config_user_id", AppUserConfig.APP_USER_CONFIG.USER_ID);
         public static final ForeignKey<AppVersionRecord, AppUserRecord> APP_VERSION__FK_APP_VERSION_OWNER_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_APP_USER, AppVersion.APP_VERSION, "app_version__fk_app_version_owner_id", AppVersion.APP_VERSION.OWNER_ID);
         public static final ForeignKey<FooRecord, FooTypeRecord> FOO__FK_FOO_TYPE_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.FOO_TYPE_NAME_KEY, Foo.FOO, "foo__fk_foo_type_id", Foo.FOO.TYPE);

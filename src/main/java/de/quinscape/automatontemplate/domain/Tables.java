@@ -4,6 +4,8 @@
 package de.quinscape.automatontemplate.domain;
 
 
+import de.quinscape.automatontemplate.domain.tables.AppAttachment;
+import de.quinscape.automatontemplate.domain.tables.AppAttachmentData;
 import de.quinscape.automatontemplate.domain.tables.AppConfig;
 import de.quinscape.automatontemplate.domain.tables.AppLogin;
 import de.quinscape.automatontemplate.domain.tables.AppTranslation;
@@ -28,6 +30,16 @@ import javax.annotation.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>public.app_attachment</code>.
+     */
+    public static final AppAttachment APP_ATTACHMENT = de.quinscape.automatontemplate.domain.tables.AppAttachment.APP_ATTACHMENT;
+
+    /**
+     * The table <code>public.app_attachment_data</code>.
+     */
+    public static final AppAttachmentData APP_ATTACHMENT_DATA = de.quinscape.automatontemplate.domain.tables.AppAttachmentData.APP_ATTACHMENT_DATA;
 
     /**
      * The table <code>public.app_config</code>.

@@ -5,61 +5,83 @@ schema {
     mutation: MutationType
 }
 
+"File/image attachments"
+type AppAttachment {
+    "Description of the attachment, might be former filename"
+    description: String
+    "attachment id"
+    id: String!
+    "Attachment media type"
+    type: String!
+    "Attachment url as alternative to binary content"
+    url: String
+}
+
+"Data-base backed attachments"
+type AppAttachmentData {
+    "DB column 'attachment_id'"
+    attachmentId: String!
+    "attachement as binary data"
+    data: [Byte]!
+    "attachment data id"
+    id: String!
+}
+
 "Encapsulates AppScope JSON data"
 type AppConfig {
-    "DB column 'name'"
+    "Application name"
     name: String!
-    "DB column 'scope'"
+    "JSON of the current application scope"
     scope: JSONB!
 }
 
 "Encapsulates login information for the remember-me feature"
 type AppLogin {
-    "DB column 'last_used'"
+    "Last access of the login"
     lastUsed: Timestamp!
-    "DB column 'series'"
+    "Token series"
     series: String!
-    "DB column 'token'"
+    "Token"
     token: String!
-    "DB column 'username'"
+    "User name of the login"
     username: String!
 }
 
 "Encapsulates application translations"
 type AppTranslation {
-    "DB column 'created'"
+    "creation date of the translation entry"
     created: Timestamp!
-    "DB column 'id'"
+    "translation id"
     id: String!
-    "DB column 'locale'"
+    "locale code of the translation'"
     locale: String!
-    "DB column 'modified'"
+    "last modified date for the translation entry"
     modified: Timestamp!
-    "DB column 'process_name'"
+    "can contain a process name to limit the to just that process"
     processName: String!
-    "DB column 'tag'"
+    "translation tag/key"
     tag: String!
-    "DB column 'translation'"
+    "translation text"
     translation: String!
 }
 
 "Automaton/Spring Security user object"
 type AppUser {
-    "DB column 'created'"
+    "Creation date of the user entry"
     created: Timestamp!
-    "DB column 'disabled'"
+    "true if the user account was disabled"
     disabled: Boolean
     "Many-to-many objects from foo.owner_id"
     foos: [Foo]!
-    "DB column 'id'"
+    "user database id"
     id: String!
-    "DB column 'last_login'"
+    "last login of the user"
     lastLogin: Timestamp
-    "DB column 'login'"
+    "User name / login"
     login: String!
-    "DB column 'password'"
+    "encrypted password"
     password: String!
-    "DB column 'roles'"
+    "Spring security roles of the user within the application"
     roles: String!
 }
 
@@ -71,22 +93,27 @@ type AppUserConfig {
     userId: String!
 }
 
-"Generated from public.app_version"
+"Stores merge version metadata"
 type AppVersion {
-    "DB column 'created'"
+    "Timestamp when the version was created"
     created: Timestamp!
-    "DB column 'entity_id'"
+    "Id of the entity"
     entityId: String!
-    "DB column 'entity_type'"
+    "Entity type the version refers to"
     entityType: String!
     "DB column 'field_mask'"
     fieldMask: BigInteger!
-    "DB column 'id'"
+    "Id of the version. Is the same as the version field in the entity."
     id: String!
-    "DB column 'owner_id'"
+    "Foreign key to the user who created the version"
     ownerId: String!
-    "DB column 'prev'"
+    "Previous version for that entity or null"
     prev: String
+}
+
+"Generated for java.math.BigInteger"
+type BigInteger {
+    lowestSetBit: Int
 }
 
 "The state of a column within an interactive query."
@@ -146,6 +173,12 @@ type InteractiveQueryAppUser {
     rows: [AppUser]
     "Name of payload type (always 'AppUser')"
     type: String
+}
+
+"Container for user-editable interactive query definition. Wraps a query string and a default query config."
+type InteractiveQueryDefinition {
+    query: String
+    queryConfig: QueryConfig
 }
 
 "Interactive Query with Foo payload."
@@ -213,11 +246,7 @@ type MergeConflictField {
     type entities.
     """
     references: [EntityReference]
-    """
-
-    Field status for the conflict. If MergeOptions#isAllowAutoMerge() is enabled, this will always be MergeFieldStatus#UNDECIDED, if auto-merge
-    is disabled, the system will report back successful merges with the respective choices made.
-    """
+    "Field status for the conflict."
     status: MergeFieldStatus
     "The currently stored value for the conflict."
     theirs: GenericScalar
@@ -293,13 +322,18 @@ type QueryConfig {
 
 "Auto-generated from AutomatontemplateLogic, AutomatonStandardLogic"
 type QueryType {
+    _interactiveQueryDefinition(def: InteractiveQueryDefinitionInput): InteractiveQueryDefinition
     getDomainTypeIndex(condition: Condition, domainType: String!, field: String!): [String]
-    "Default implementation of an InteractiveQuery based query for type AppUser."
     iQueryAppUser(config: QueryConfigInput!): InteractiveQueryAppUser
-    "Default implementation of an InteractiveQuery based query for type Foo."
     iQueryFoo(config: QueryConfigInput!): InteractiveQueryFoo
-    "Default implementation of an InteractiveQuery based query for type FooType."
     iQueryFooType(config: QueryConfigInput!): InteractiveQueryFooType
+    """
+
+    Resolves filter context values without executing them in a filter. Only use this if you need the actual values of
+    filter contexts on the client side. The normal usage of context values is to embed <code>context()</code> nodes
+    in filters.
+    """
+    resolveFilterContext(names: [String]!): [GenericScalar]
 }
 
 enum MergeFieldStatus {
@@ -344,12 +378,19 @@ enum MergeResolutionOperation {
 
 "Automaton/Spring Security user object"
 input AppUserInput {
+    "Creation date of the user entry"
     created: Timestamp!
+    "true if the user account was disabled"
     disabled: Boolean
+    "user database id"
     id: String!
+    "last login of the user"
     lastLogin: Timestamp
+    "User name / login"
     login: String!
+    "encrypted password"
     password: String!
+    "Spring security roles of the user within the application"
     roles: String!
 }
 
@@ -408,6 +449,12 @@ input FooTypeInput {
     ordinal: Int!
 }
 
+"Container for user-editable interactive query definition. Wraps a query string and a default query config."
+input InteractiveQueryDefinitionInput {
+    query: String
+    queryConfig: QueryConfigInput
+}
+
 "Generated for de.quinscape.automaton.model.merge.MergeConfig"
 input MergeConfigInput {
     allowApply: Boolean
@@ -432,11 +479,7 @@ input MergeConflictFieldInput {
     type entities.
     """
     references: [EntityReferenceInput]
-    """
-
-    Field status for the conflict. If MergeOptions#isAllowAutoMerge() is enabled, this will always be MergeFieldStatus#UNDECIDED, if auto-merge
-    is disabled, the system will report back successful merges with the respective choices made.
-    """
+    "Field status for the conflict."
     status: MergeFieldStatus
     "The currently stored value for the conflict."
     theirs: GenericScalar
@@ -502,8 +545,8 @@ input QueryConfigInput {
 "Map graph representing a JOOQ field expression"
 scalar FieldExpression
 
-"Built-in java.math.BigInteger"
-scalar BigInteger
+"Built-in Byte as Int"
+scalar Byte
 
 "SQL timestamp equivalent"
 scalar Timestamp

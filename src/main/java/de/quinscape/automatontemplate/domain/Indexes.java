@@ -4,6 +4,8 @@
 package de.quinscape.automatontemplate.domain;
 
 
+import de.quinscape.automatontemplate.domain.tables.AppAttachment;
+import de.quinscape.automatontemplate.domain.tables.AppAttachmentData;
 import de.quinscape.automatontemplate.domain.tables.AppConfig;
 import de.quinscape.automatontemplate.domain.tables.AppLogin;
 import de.quinscape.automatontemplate.domain.tables.AppTranslation;
@@ -37,6 +39,9 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index PK_APP_ATTACHMENT = Indexes0.PK_APP_ATTACHMENT;
+    public static final Index PK_APP_ATTACHMENT_DATA = Indexes0.PK_APP_ATTACHMENT_DATA;
+    public static final Index UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID = Indexes0.UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID;
     public static final Index PK_APP_CONFIG = Indexes0.PK_APP_CONFIG;
     public static final Index PK_APP_LOGIN = Indexes0.PK_APP_LOGIN;
     public static final Index PK_APP_TRANSLATION = Indexes0.PK_APP_TRANSLATION;
@@ -54,6 +59,9 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
+        public static Index PK_APP_ATTACHMENT = Internal.createIndex("pk_app_attachment", AppAttachment.APP_ATTACHMENT, new OrderField[] { AppAttachment.APP_ATTACHMENT.ID }, true);
+        public static Index PK_APP_ATTACHMENT_DATA = Internal.createIndex("pk_app_attachment_data", AppAttachmentData.APP_ATTACHMENT_DATA, new OrderField[] { AppAttachmentData.APP_ATTACHMENT_DATA.ID }, true);
+        public static Index UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID = Internal.createIndex("uc_app_attachment_data_attachment_id", AppAttachmentData.APP_ATTACHMENT_DATA, new OrderField[] { AppAttachmentData.APP_ATTACHMENT_DATA.ATTACHMENT_ID }, true);
         public static Index PK_APP_CONFIG = Internal.createIndex("pk_app_config", AppConfig.APP_CONFIG, new OrderField[] { AppConfig.APP_CONFIG.NAME }, true);
         public static Index PK_APP_LOGIN = Internal.createIndex("pk_app_login", AppLogin.APP_LOGIN, new OrderField[] { AppLogin.APP_LOGIN.SERIES }, true);
         public static Index PK_APP_TRANSLATION = Internal.createIndex("pk_app_translation", AppTranslation.APP_TRANSLATION, new OrderField[] { AppTranslation.APP_TRANSLATION.ID }, true);
