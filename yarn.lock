@@ -1567,6 +1567,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.13.10":
+  version "7.13.10"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.10.tgz#47d42a57b6095f4468da440388fdbad8bebf0d7d"
+  integrity sha512-4QPkjJq6Ns3V/RgpEahRk+AGfL0eO6RHHtTWoNNr5mO49G6B5+X6d6THgWEAvTrznU5xYpbAlVKRYcsCgh/Akw==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/runtime@^7.8.4":
   version "7.10.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.10.2.tgz#d103f21f2602497d38348a32e008637d506db839"
@@ -1640,15 +1647,16 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@quinscape/automaton-js@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@quinscape/automaton-js/-/automaton-js-0.2.0.tgz#9ec56bb2dd7df829383a6b0df44fceb428afe81a"
-  integrity sha512-8fmMFW+YaBLN5keGzHCMfhDGMTg3MQXK1VidlD8vdUOjqqOvvO3ANALYOCCokjoWEm5pdZbzher1OCVYolFVrA==
+"@quinscape/automaton-js@^0.2.23":
+  version "0.2.23"
+  resolved "https://registry.yarnpkg.com/@quinscape/automaton-js/-/automaton-js-0.2.23.tgz#ac49af11f4319357632a1b6df2155e97e95510e2"
+  integrity sha512-DcKrdGoe1aVLATvmfBxLQ7SONIPXojsvHABYQWgImByWQfK9uD24ped+/cVBOJ4uhcxoVqUPUre3inv0z9Ovsg==
   dependencies:
     ajv "^6.12.2"
     classnames "^2.2.6"
     create-react-class "^15.6.3"
-    domainql-form "^3.1.1"
+    domainql-form "^3.4.3"
+    downshift "^6.0.6"
     graphql "^14.5.8"
     history "^4.10.1"
     js-beautify "^1.10.3"
@@ -1656,6 +1664,8 @@
     json-source-map "^0.6.1"
     lodash.get "^4.4.2"
     lodash.set "^4.3.2"
+    lodash.topath "^4.5.2"
+    luxon "^1.25.0"
     mobx "^5.15.0"
     mobx-react "^6.1.4"
     mobx-react-devtools "^6.1.1"
@@ -2721,6 +2731,11 @@ component-emitter@^1.2.1:
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
   integrity sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==
 
+compute-scroll-into-view@^1.0.17:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.17.tgz#6a88f18acd9d42e9cf4baa6bec7e0522607ab7ab"
+  integrity sha512-j4dx+Fb0URmzbwwMUrhqWM2BEWHdFGx+qZ9qqASHRPqvTYdqvWnHg0H1hIbcyLnvgnoNAVMlwkepyqM3DaIFUg==
+
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -3119,10 +3134,10 @@ domain-browser@^1.1.1:
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
   integrity sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==
 
-domainql-form@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/domainql-form/-/domainql-form-3.1.1.tgz#76c5e953095afd08ff41518c615c7c9e861135f6"
-  integrity sha512-jUAsdQQ+/kmFA6yF7u8zt11o+LPaNb9liEMtbn0X14fphLowkPI7+QOCGs6v7RIFVpEVBeA6UwSIKSY73eEODg==
+domainql-form@^3.4.3:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/domainql-form/-/domainql-form-3.5.0.tgz#c7bda61f42d7a4389e1a7fc022b5f6092c1d7b36"
+  integrity sha512-Xf8uP8dfNcST5q6I1VNNq1EXGhVQOWONjouRSOqnbrmPKg3LoYbUtT0gjqYHglr6BKuVeOc7LQQLdzdzS47EDw==
   dependencies:
     classnames "^2.2.6"
     lodash.debounce "^4.0.8"
@@ -3166,6 +3181,16 @@ domutils@^1.7.0:
   dependencies:
     dom-serializer "0"
     domelementtype "1"
+
+downshift@^6.0.6:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-6.1.2.tgz#99d9a03d4da4bf369df766effc3b70f7e789950e"
+  integrity sha512-WnPoQ6miic4+uEzPEfqgeen0t5YREOUabMopU/Juo/UYDMZl0ZACkO6ykWCRg48dlEUmEt6zfaJlj1x7kEy78g==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    compute-scroll-into-view "^1.0.17"
+    prop-types "^15.7.2"
+    react-is "^17.0.2"
 
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.7.1"
@@ -4527,6 +4552,11 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
+luxon@^1.25.0:
+  version "1.26.0"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.26.0.tgz#d3692361fda51473948252061d0f8561df02b578"
+  integrity sha512-+V5QIQ5f6CDXQpWNICELwjwuHdqeJM1UenlZWx5ujcRMc9venvluCjFb4t5NYLhb6IhkbMVOxzVuOqkgMxee2A==
+
 make-dir@^2.0.0, make-dir@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-2.1.0.tgz#5f0310e18b8be898cc07009295a30ae41e91e6f5"
@@ -5687,6 +5717,11 @@ react-is@^16.8.1:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
+
+react-is@^17.0.2:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
+  integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
 react-json-tree@^0.11.2:
   version "0.11.2"
