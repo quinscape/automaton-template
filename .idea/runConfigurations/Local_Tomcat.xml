@@ -1,16 +1,16 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Local Tomcat" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8" ALTERNATIVE_JRE_ENABLED="false">
-    <option name="OPEN_IN_BROWSER" value="false" />
+    <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/" />
     <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
-      <artifact name="automaton-template:war exploded">
+      <artifact name="automatontemplate:war exploded">
         <settings>
           <option name="CONTEXT_PATH" value="/" />
         </settings>
       </artifact>
     </deployment>
     <server-settings>
-      <option name="BASE_DIRECTORY_NAME" value="Unnamed_automatontemplate" />
+      <option name="BASE_DIRECTORY_NAME" value="2fe069ab-ea29-4295-96ab-8d0c93d74610" />
     </server-settings>
     <predefined_log_file enabled="true" id="Tomcat" />
     <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -18,7 +18,7 @@
     <predefined_log_file id="Tomcat Host Manager" />
     <predefined_log_file id="Tomcat Localhost Access" />
     <RunnerSettings RunnerId="Debug">
-      <option name="DEBUG_PORT" value="43421" />
+      <option name="DEBUG_PORT" value="39423" />
     </RunnerSettings>
     <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
       <option name="USE_ENV_VARIABLES" value="true" />
@@ -54,7 +54,6 @@
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
         <artifact name="automatontemplate:war exploded" />
-        <artifact name="automaton-template:war exploded" />
       </option>
     </method>
   </configuration>

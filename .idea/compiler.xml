@@ -16,13 +16,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="automaton-template" />
+        <module name="automatontemplate" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="automaton-template" options="-parameters -parameters" />
+      <module name="automatontemplate" options="-parameters -parameters" />
     </option>
   </component>
 </project>
