@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.0.RELEASE</version>
+        <version>2.3.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -24,12 +24,12 @@
         <java.version>1.8</java.version>
         <spring.core.version>5.2.6.RELEASE</spring.core.version>
         <atomikos.version>3.9.3</atomikos.version>
+        <spring.profiles.active>dev</spring.profiles.active>
+
         <!--
-            Integration tests are disabled by default and require the application running on localhost:8080
-            and the system property `webdriver.gecko.driver` being set to the external installation of geckodriver
-            ( See https://github.com/mozilla/geckodriver )
+            See docs/testing.md
         -->
-        <skipITs>true</skipITs>
+        <automaton.tests.excluded>integration,selenium</automaton.tests.excluded>
     </properties>
 
     <dependencies>
@@ -87,7 +87,7 @@
         <dependency>
             <groupId>de.quinscape.domainql</groupId>
             <artifactId>domainql</artifactId>
-            <version>0.2.5</version>
+            <version>0.2.9</version>
         </dependency>
 
         <dependency>
@@ -181,7 +181,7 @@
         <dependency>
             <groupId>de.quinscape.domainql</groupId>
             <artifactId>automaton</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.23</version>
         </dependency>
 
         <dependency>
@@ -191,6 +191,13 @@
         </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core -->
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core</artifactId>
+            <version>3.13.10</version>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -199,12 +206,20 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core -->
         <dependency>
-            <groupId>com.github.javaparser</groupId>
-            <artifactId>javaparser-core</artifactId>
-            <version>3.13.10</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.6.2</version>
+            <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.6.2</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -215,40 +230,64 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Update DomainQL type documentation from Java source -->
+            <!-- XXX: Update DomainQL type documentation from Java source -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.5.0</version>
                 <executions>
+
+                    <!-- Update DomainQL type documentation from Java source -->
                     <execution>
                         <id>update-typedocs</id>
                         <goals>
                             <goal>java</goal>
                         </goals>
                         <phase>generate-sources</phase>
+                        <configuration>
+                            <mainClass>de.quinscape.domainql.docs.DocsExtractor</mainClass>
+                            <arguments>
+
+                                <argument>--sourceRoot</argument>
+                                <argument>${project.basedir}/src/main/java</argument>
+
+                                <argument>--package</argument>
+                                <argument>de.quinscape.automatontest.runtime.service</argument>
+
+                                <argument>--package</argument>
+                                <argument>de.quinscape.automatontest.model</argument>
+
+                                <argument>--output</argument>
+                                <argument>${project.basedir}/src/main/resources/source-typedocs.json</argument>
+
+                                <argument>--pretty</argument>
+
+                            </arguments>
+                        </configuration>
                     </execution>
+
+                    <!-- Collect translations from libraries -->
+                    <!--<![CDATA[
+                    <execution>
+                        <id>collect-library-translations</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <mainClass>de.quinscape.automaton.tooling.TranslationsCollector</mainClass>
+                            <arguments>
+
+                                <argument>-o</argument>
+                                <argument>${project.basedir}/src/main/webapp/WEB-INF/lib-translations.json</argument>
+
+                                <argument>${project.basedir}/node_modules/@quinscape/automaton-js/lib/translations.json</argument>
+
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    ]]>-->
                 </executions>
-                <configuration>
-                    <mainClass>de.quinscape.domainql.docs.DocsExtractor</mainClass>
-                    <arguments>
-
-                        <argument>--sourceRoot</argument>
-                        <argument>${project.basedir}/src/main/java</argument>
-
-                        <argument>--package</argument>
-                        <argument>de.quinscape.automatontemplate.runtime.service</argument>
-
-                        <argument>--package</argument>
-                        <argument>de.quinscape.automatontemplate.model</argument>
-
-                        <argument>--output</argument>
-                        <argument>${project.basedir}/src/main/resources/source-typedocs.json</argument>
-
-                        <argument>--pretty</argument>
-
-                    </arguments>
-                </configuration>
             </plugin>
 
             <!-- MAVEN FRONTEND PLUGIN: INTEGRATES JAVASCRIPT BUILD -->
@@ -327,6 +366,7 @@
 
                 </executions>
             </plugin>
+
 
             <!-- JOOQ CODE GENERATION -->
             <plugin>
@@ -426,21 +466,18 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
                 <configuration>
-                    <skipITs>${skipITs}</skipITs>
+                    <excludedGroups>${automaton.tests.excluded}</excludedGroups>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
         </plugins>
     </build>
 
