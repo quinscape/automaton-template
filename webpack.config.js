@@ -1,5 +1,4 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const PreloadQueriesPlugin = require("domainql-webpack-plugin");
 const JsViewPlugin = require("jsview-webpack-plugin");
 const TrackUsagePlugin = require("babel-plugin-track-usage/webpack/track-usage-plugin");
 const AutomatonPlugin = require("babel-plugin-automaton/webpack/AutomatonPlugin");
@@ -10,6 +9,7 @@ const webpack = require("webpack");
 const shellJs = require("shelljs");
 
 const PRODUCTION = (process.env.NODE_ENV === "production");
+const ASSET_PATH = (process.env.ASSET_PATH || "/js/");
 
 // TODO: change js output directory matching maven target 
 const JS_OUTPUT_DIRECTORY = path.join(__dirname, "target/automatontemplate/js/");
@@ -37,6 +37,10 @@ module.exports = {
         library: "App",
         libraryTarget: "var",
         libraryExport: "default",
+
+        publicPath: ASSET_PATH,
+
+        clean: true
     },
 
     // aliases to be able to use "yarn link automaton-js"
@@ -48,13 +52,13 @@ module.exports = {
             "mobx": path.resolve("./node_modules/mobx"),
             "domainql-form": path.resolve("./node_modules/domainql-form"),
             "reactstrap": path.resolve("./node_modules/reactstrap"),
-            "mobx-react": path.resolve("./node_modules/mobx-react"),
             "mobx-react-lite": path.resolve("./node_modules/mobx-react-lite"),
             "mobx-react-devtools": path.resolve("./node_modules/mobx-react-devtools"),
             "mobx-utils": path.resolve("./node_modules/mobx-utils"),
             "history": path.resolve("./node_modules/history"),
             "bignumber.js": path.resolve("./node_modules/bignumber.js"),
-            "react-calendar": path.resolve("./node_modules/react-calendar")
+            "react-calendar": path.resolve("./node_modules/react-calendar"),
+            "luxon": path.resolve("./node_modules/luxon")
         }
     },
 
@@ -73,11 +77,9 @@ module.exports = {
 
             // clean old assets and generate webpack-assets.json
             new JsViewPlugin(),
-            new PreloadQueriesPlugin({
-                //debug: true
-            }),
             new TrackUsagePlugin({
-                output: path.join( JS_OUTPUT_DIRECTORY, "/track-usage.json")
+                output: path.join( JS_OUTPUT_DIRECTORY, "/track-usage.json"),
+                debug: true
             })
         ];
 

@@ -137,6 +137,11 @@ export function initProcess(process, scope)
 
 export default class CRUDTestScope {
 
+    constructor()
+    {
+        makeObservable(this);
+    }
+
     @observable
     currentFoo = null;
 

@@ -1,4 +1,4 @@
-import { computed, observable } from "mobx";
+import { computed, makeObservable, observable } from "mobx";
 
 // TODO: Change/delete client side domain class
 
@@ -12,6 +12,11 @@ import { computed, observable } from "mobx";
  *
  */
 export default class Foo {
+
+    constructor()
+    {
+        makeObservable(this)
+    }
 
     @observable id;
 
