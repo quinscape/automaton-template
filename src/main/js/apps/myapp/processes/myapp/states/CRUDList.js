@@ -1,21 +1,73 @@
-import React from "react"
-import { observer as fnObserver } from "mobx-react-lite";
-import { ButtonToolbar } from "reactstrap";
+import React from "react";
+
 import {
+    ViewState,
+    createDomainObject,
+    config,
+    useDomainMonitor,
+    i18n,
     Button,
+    DataGrid,
     DomainActivityIndicator,
     FilterDSL,
-    i18n,
-    IQueryGrid as DataGrid,
-    useDomainMonitor
-} from "@quinscape/automaton-js"
+} from "@quinscape/automaton-js";
+
+import { ButtonToolbar } from "reactstrap";
 import { Icon, Select } from "domainql-form";
+import CRUDDetail from "./CRUDDetail";
+import Q_FooDetail from "../../../queries/Q_FooDetail";
 
-// deconstruct FilterDSL methods
-const { field, value } = FilterDSL;
+const {
+    field,
+    value
+} = FilterDSL;
 
+const CRUDList = new ViewState("CRUDList", (process, scope) => ({
+    "new-foo": {
+        to: CRUDDetail,
+        action: t => {
+            const newObj = createDomainObject("FooInput");
 
-const CRUDList = props => {
+            newObj.name = "Unnamed Foo";
+            newObj.desc = "";
+            newObj.num = 0;
+            newObj.flag = false;
+            newObj.created = new Date();
+            newObj.type = "TYPE_A";
+
+            return scope.updateCurrent(newObj);
+        }
+    },
+
+    "to-detail": {
+        to: CRUDDetail,
+        action: t => {
+
+            console.log("to-detail, context = ", t.context);
+
+            return Q_FooDetail.execute({
+                config: {
+                    condition:
+                        field("id")
+                            .eq(
+                                value(
+                                    t.context
+                                )
+                            )
+                }
+            }).then(({iQueryFoo}) => {
+
+                if (iQueryFoo.rows.length === 0)
+                {
+                    alert("Could not load Foo with id '" + t.context)
+                }
+                return scope.updateCurrent(
+                    config.inputSchema.clone(iQueryFoo.rows[0])
+                );
+            });
+        }
+    }
+}), props => {
 
     const { env } = props;
 
@@ -102,6 +154,6 @@ const CRUDList = props => {
 
         </React.Fragment>
     );
-};
+});
 
-export default fnObserver(CRUDList);
+export default CRUDList;
