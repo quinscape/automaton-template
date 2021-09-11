@@ -65,7 +65,7 @@ forming the application infrastructure.
 
 | Configuration File             | Description 
 |--------------------------------|-------------
-| DataSourceConfiguration        | Sets up an Atomikos-JTA data-source, currently configured to Postgres via properties.   
+| DomainConfiguration            | Sets up an Atomikos-JTA data-source, currently configured to Postgres via properties.   
 | GraphQLConfiguration           | Contains the configuration for the DomainQL/GraphQL schema connecting the database world and GraphQL
 | MethodSecurityConfiguration    | Prepared configuration for Spring method security, disabled by default.
 | SecurityConfiguration          | Spring Security configuration (by default requiring ROLE_USER for application URIs and ROLE_ADMIN within the (empty) /admin/** path)
