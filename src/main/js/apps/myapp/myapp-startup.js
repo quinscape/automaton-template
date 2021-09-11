@@ -1,7 +1,16 @@
 import "whatwg-fetch"
 import bootstrap from "jsview-bootstrap"
 import { configure, runInAction, toJS, observable } from "mobx"
-import { config, getCurrentProcess, addConfig, shutdown, startup, Hub } from "@quinscape/automaton-js"
+import {
+    config,
+    getCurrentProcess,
+    StartupRegistry,
+    shutdown,
+    startup,
+    Hub,
+    printSchema,
+    pickSchemaTypes
+} from "@quinscape/automaton-js"
 import Layout from "../../components/Layout";
 
 // noinspection ES6UnusedImports
@@ -16,30 +25,36 @@ configure({
 bootstrap(
     initial => {
 
-        // we wait for the websocket handshake to finish
-        return Hub.init(initial.connectionId)
-            .then(() => {
-
             // and then start. If you can prevent websocket interactions early the wait might not be necessary.
-            
-            return startup(
-                require.context("./", true, /\.js$/),
-                initial,
-                config => {
 
-                    new FormContext(config.inputSchema).useAsDefault();
+        return startup(
+            require.context("./", true, /^.\/(scopes|domain\/.*)\.js$/),
 
-                    config.layout = Layout;
-                }
-            );
-        })
+            name => import(
+                /* webpackChunkName: "process-" */
+                /* webpackExclude: /(states|queries|composites)/ */
+                `./processes/${name}/${name}.js`
+                ),
+            initial,
+            config => {
 
+                new FormContext(config.inputSchema).useAsDefault();
+
+                config.layout = Layout;
+
+                // register things with StartupRegistry
+
+                return Hub.init(initial.connectionId)
+            }
+        );
     })
     .then(() => console.log("ready."));
 
 export default {
     config,
     currentProcess: getCurrentProcess,
+    pickSchemaTypes : array => pickSchemaTypes(config.inputSchema, array),
     runInAction,
-    toJS
+    toJS,
+    printSchema
 };
