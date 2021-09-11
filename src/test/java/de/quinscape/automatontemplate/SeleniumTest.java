@@ -1,8 +1,10 @@
 package de.quinscape.automatontemplate;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -11,13 +13,15 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 /**
- * The inclusion of this test into the integration tests happens by following the "*ITCase.java" naming convention
+ * Example of a selenium integration-test with gecko-driver
  */
-public class SeleniumTestITCase
+@Tag("integration")
+@EnabledIfSystemProperty(named = "webdriver.gecko.driver", matches = ".+")
+public class SeleniumTest
 {
     private static FirefoxDriver driver;
 
-    @BeforeClass
+    @BeforeAll
     public static void initDriver()
     {
         final FirefoxOptions options = new FirefoxOptions();
@@ -25,7 +29,7 @@ public class SeleniumTestITCase
         driver = new FirefoxDriver(options);
     }
 
-    @AfterClass
+    @AfterAll
     public static void deinitDriver()
     {
         driver.close();

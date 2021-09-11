@@ -64,7 +64,7 @@ public class WebConfiguration
     {
         final GraphQLSchema graphQLSchema = domainQL.getGraphQLSchema();
         registry.viewResolver(
-            JsViewResolver.newResolver(servletContext, "WEB-INF/template-alternate-styles.html")
+            JsViewResolver.newResolver(servletContext, "WEB-INF/template.html")
                 .withResourceLoader(resourceLoader)
 
                 // Process injections and general miscellaneous data we would normally

@@ -1,7 +1,7 @@
 package de.quinscape.automatontemplate.runtime;
 
 import de.quinscape.automaton.runtime.config.AutomatonConfiguration;
-import de.quinscape.automatontemplate.runtime.config.DataSourceConfiguration;
+import de.quinscape.automatontemplate.runtime.config.DomainConfiguration;
 import de.quinscape.automatontemplate.runtime.config.GraphQLConfiguration;
 import de.quinscape.automatontemplate.runtime.config.SecurityConfiguration;
 import de.quinscape.automatontemplate.runtime.config.ServiceConfiguration;
@@ -36,7 +36,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
     GraphQLConfiguration.class,
     WebsocketConfiguration.class,
-    DataSourceConfiguration.class,
+    DomainConfiguration.class,
     WebConfiguration.class,
     SecurityConfiguration.class,
     ServiceConfiguration.class

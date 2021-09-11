@@ -18,6 +18,7 @@ import de.quinscape.domainql.generic.GenericScalar;
 import de.quinscape.domainql.generic.GenericScalarType;
 import de.quinscape.domainql.jsonb.JSONB;
 import de.quinscape.domainql.jsonb.JSONBScalar;
+import de.quinscape.domainql.meta.MetadataProvider;
 import graphql.GraphQL;
 import org.jooq.DSLContext;
 import org.slf4j.Logger;
@@ -61,6 +62,7 @@ public class GraphQLConfiguration
     public DomainQL domainQL() throws IOException
     {
         final Collection<Object> logicBeans = applicationContext.getBeansWithAnnotation(GraphQLLogic.class).values();
+        final Collection<MetadataProvider> metadataProviders = applicationContext.getBeansOfType(MetadataProvider.class).values();
 
         final DomainQL domainQL = DomainQL.newDomainQL(dslContext)
             //.parameterProvider(new AutomatonConnectionProviderFactory(applicationContext))
@@ -104,6 +106,11 @@ public class GraphQLConfiguration
             .withTypeDocsFrom(
                 new ClassPathResource("source-typedocs.json").getInputStream()
             )
+
+            .withMetadataProviders(
+                metadataProviders.toArray(new MetadataProvider[0])
+            )
+
             .build();
             
         return domainQL;

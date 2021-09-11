@@ -2,12 +2,9 @@ package de.quinscape.automatontemplate.runtime.config;
 
 import com.atomikos.icatch.jta.UserTransactionImp;
 import com.atomikos.icatch.jta.UserTransactionManager;
-import de.quinscape.automaton.model.js.StaticFunctionReferences;
 import de.quinscape.automaton.runtime.config.ScopeTableConfig;
-import de.quinscape.automaton.runtime.i18n.DefaultTranslationService;
-import de.quinscape.automaton.runtime.i18n.TranslationService;
-import de.quinscape.automatontemplate.domain.tables.pojos.AppTranslation;
-import de.quinscape.spring.jsview.loader.ResourceHandle;
+import de.quinscape.automaton.runtime.merge.MergeService;
+import de.quinscape.domainql.DomainQL;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DataSourceConnectionProvider;
@@ -15,11 +12,11 @@ import org.jooq.impl.DefaultConfiguration;
 import org.jooq.impl.DefaultDSLContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
 import javax.sql.DataSource;
@@ -29,9 +26,9 @@ import java.util.Properties;
 import static de.quinscape.automatontemplate.domain.Tables.*;
 
 @Configuration
-public class DataSourceConfiguration
+public class DomainConfiguration
 {
-    private final static Logger log = LoggerFactory.getLogger(DataSourceConfiguration.class);
+    private final static Logger log = LoggerFactory.getLogger(DomainConfiguration.class);
 
 
     // TODO: change DB property names ( see also automatontemplate-dev.properties, automatontemplate-prod.properties)
@@ -139,6 +136,18 @@ public class DataSourceConfiguration
             APP_CONFIG,
             APP_USER_CONFIG
         );
+    }
+
+    @Bean
+    public MergeService mergeService(
+        @Lazy DomainQL domainQL,
+        DSLContext dslContext
+    )
+    {
+        final MergeService mergeService = MergeService.build(domainQL, dslContext)
+            .buildService();
+        log.info("Created MergeService with {}", mergeService.getOptions());
+        return mergeService;
     }
 
 }
