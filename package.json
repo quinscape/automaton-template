@@ -13,7 +13,7 @@
         "jsview-bootstrap": "^0.2.0",
         "lodash.get": "^4.4.2",
         "lodash.topath": "^4.5.2",
-        "luxon": "^2.0.2",
+        "luxon": "^2.5.2",
         "mobx": "^6.3.3",
         "mobx-react-lite": "^3.2.1",
         "mobx-utils": "^6.0.4",
