@@ -5,9 +5,9 @@ import de.quinscape.automaton.runtime.scalar.ConditionType;
 import de.quinscape.automaton.runtime.scalar.FieldExpressionScalar;
 import de.quinscape.automaton.runtime.scalar.FieldExpressionType;
 import de.quinscape.automatontemplate.domain.Public;
-import de.quinscape.automatontemplate.domain.tables.pojos.AppUser;
-import de.quinscape.automatontemplate.domain.tables.pojos.Foo;
-import de.quinscape.automatontemplate.domain.tables.pojos.FooType;
+import de.quinscape.automatontemplate.domain.tables.pojos.DomainField;
+import de.quinscape.automatontemplate.domain.tables.pojos.DomainType;
+import de.quinscape.automatontemplate.domain.tables.pojos.App;
 import de.quinscape.domainql.DomainQL;
 import de.quinscape.domainql.annotation.GraphQLLogic;
 import de.quinscape.domainql.config.SourceField;
@@ -78,16 +78,20 @@ public class GraphQLConfiguration
             .withAdditionalScalar(FieldExpressionScalar.class, FieldExpressionType.newFieldExpressionType())
 
             .withAdditionalInputTypes(
-                AppUser.class,
-                Foo.class,
-                FooType.class
+                App.class,
+                DomainType.class,
+                DomainField.class
             )
 
 
             // configure object creation for schema relationships
 
             //.configureRelation(DB_TABLE.FOREIGN_KEY_FIELD, SourceField.*, TargetField.*[, "sourceFieldName", "targetFieldName"])
-            .configureRelation(FOO.OWNER_ID, SourceField.OBJECT, TargetField.MANY)
+            .configureRelation(DOMAIN_TYPE.APP_ID, SourceField.NONE, TargetField.MANY)
+            .configureRelation(DOMAIN_FIELD.DOMAIN_TYPE_ID, SourceField.NONE, TargetField.MANY)
+            .configureRelation(DOMAIN_TYPE_META.DOMAIN_TYPE_ID, SourceField.NONE, TargetField.MANY, "", "meta")
+            .configureRelation(DOMAIN_FIELD_META.DOMAIN_FIELD_ID, SourceField.NONE, TargetField.MANY, "", "meta")
+            /*
             /*
                 documentation for the types defined in the automaton library
              */

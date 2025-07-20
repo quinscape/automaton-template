@@ -5,6 +5,18 @@ schema {
     mutation: MutationType
 }
 
+"The application root"
+type App {
+    "DB column 'description'"
+    description: String
+    "Many-to-many objects from domain_type.app_id"
+    domainTypes: [DomainType]!
+    "DB column 'id'"
+    id: String!
+    "DB column 'name'"
+    name: String!
+}
+
 "File/image attachments"
 type AppAttachment {
     "Description of the attachment, might be former filename"
@@ -71,8 +83,6 @@ type AppUser {
     created: Timestamp!
     "true if the user account was disabled"
     disabled: Boolean
-    "Many-to-many objects from foo.owner_id"
-    foos: [Foo]!
     "user database id"
     id: String!
     "last login of the user"
@@ -126,6 +136,56 @@ type ColumnState {
     sortable: Boolean
 }
 
+"A domain field belonging to a domain type"
+type DomainField {
+    "DB column 'description'"
+    description: String
+    "DB column 'id'"
+    id: String!
+    "DB column 'important'"
+    important: Boolean!
+    "Many-to-many objects from domain_field_meta.domain_field_id"
+    meta: [DomainFieldMeta]!
+    "DB column 'name'"
+    name: String
+    "DB column 'type'"
+    type: String!
+}
+
+"Meta data about a domain type field"
+type DomainFieldMeta {
+    "DB column 'id'"
+    id: String!
+    "DB column 'name'"
+    name: String!
+    "DB column 'value'"
+    value: String!
+}
+
+"A domain type within your application"
+type DomainType {
+    "DB column 'description'"
+    description: String
+    "Many-to-many objects from domain_field.domain_type_id"
+    domainFields: [DomainField]!
+    "DB column 'id'"
+    id: String!
+    "Many-to-many objects from domain_type_meta.domain_type_id"
+    meta: [DomainTypeMeta]!
+    "DB column 'name'"
+    name: String!
+}
+
+"Meta data about a domain type"
+type DomainTypeMeta {
+    "DB column 'id'"
+    id: String!
+    "DB column 'name'"
+    name: String!
+    "DB column 'value'"
+    value: String!
+}
+
 "Reference to a specific entity or entity version"
 type EntityReference {
     id: GenericScalar!
@@ -133,32 +193,18 @@ type EntityReference {
     version: String
 }
 
-"Example domain type for automatontemplate"
-type Foo {
-    "DB column 'created'"
-    created: Timestamp!
-    "DB column 'description'"
-    description: String
-    "DB column 'flag'"
-    flag: Boolean!
-    "DB column 'id'"
-    id: String!
-    "DB column 'name'"
-    name: String!
-    "DB column 'num'"
-    num: Int!
-    "Target of 'owner_id'"
-    owner: AppUser!
-    "DB column 'type'"
-    type: String!
-}
-
-"Catalog-like domain object, referenced by Foo."
-type FooType {
-    "DB column 'name'"
-    name: String!
-    "DB column 'ordinal'"
-    ordinal: Int!
+"Interactive Query with App payload."
+type InteractiveQueryApp {
+    "Column states for the current result."
+    columnStates: [ColumnState]
+    "Query configuration the current result was produced with."
+    queryConfig: QueryConfig
+    "Total row count available."
+    rowCount: Int
+    "List with current rows of App."
+    rows: [App]
+    "Name of payload type (always 'App')"
+    type: String
 }
 
 "Interactive Query with AppUser payload."
@@ -181,31 +227,31 @@ type InteractiveQueryDefinition {
     queryConfig: QueryConfig
 }
 
-"Interactive Query with Foo payload."
-type InteractiveQueryFoo {
+"Interactive Query with DomainField payload."
+type InteractiveQueryDomainField {
     "Column states for the current result."
     columnStates: [ColumnState]
     "Query configuration the current result was produced with."
     queryConfig: QueryConfig
     "Total row count available."
     rowCount: Int
-    "List with current rows of Foo."
-    rows: [Foo]
-    "Name of payload type (always 'Foo')"
+    "List with current rows of DomainField."
+    rows: [DomainField]
+    "Name of payload type (always 'DomainField')"
     type: String
 }
 
-"Interactive Query with FooType payload."
-type InteractiveQueryFooType {
+"Interactive Query with DomainType payload."
+type InteractiveQueryDomainType {
     "Column states for the current result."
     columnStates: [ColumnState]
     "Query configuration the current result was produced with."
     queryConfig: QueryConfig
     "Total row count available."
     rowCount: Int
-    "List with current rows of FooType."
-    rows: [FooType]
-    "Name of payload type (always 'FooType')"
+    "List with current rows of DomainType."
+    rows: [DomainType]
+    "Name of payload type (always 'DomainType')"
     type: String
 }
 
@@ -324,9 +370,10 @@ type QueryConfig {
 type QueryType {
     _interactiveQueryDefinition(def: InteractiveQueryDefinitionInput): InteractiveQueryDefinition
     getDomainTypeIndex(condition: Condition, domainType: String!, field: String!): [String]
+    iQueryApp(config: QueryConfigInput!): InteractiveQueryApp
     iQueryAppUser(config: QueryConfigInput!): InteractiveQueryAppUser
-    iQueryFoo(config: QueryConfigInput!): InteractiveQueryFoo
-    iQueryFooType(config: QueryConfigInput!): InteractiveQueryFooType
+    iQueryDomainField(config: QueryConfigInput!): InteractiveQueryDomainField
+    iQueryDomainType(config: QueryConfigInput!): InteractiveQueryDomainType
     """
 
     Resolves filter context values without executing them in a filter. Only use this if you need the actual values of
@@ -376,22 +423,29 @@ enum MergeResolutionOperation {
     STORE
 }
 
-"Automaton/Spring Security user object"
-input AppUserInput {
-    "Creation date of the user entry"
-    created: Timestamp!
-    "true if the user account was disabled"
-    disabled: Boolean
-    "user database id"
+"The application root"
+input AppInput {
+    description: String
     id: String!
-    "last login of the user"
-    lastLogin: Timestamp
-    "User name / login"
-    login: String!
-    "encrypted password"
-    password: String!
-    "Spring security roles of the user within the application"
-    roles: String!
+    name: String!
+}
+
+"A domain field belonging to a domain type"
+input DomainFieldInput {
+    description: String
+    domainTypeId: String!
+    id: String!
+    important: Boolean!
+    name: String
+    type: String!
+}
+
+"A domain type within your application"
+input DomainTypeInput {
+    appId: String!
+    description: String
+    id: String!
+    name: String!
 }
 
 "Encapsulates multiple changes for a single entity / domain object."
@@ -429,24 +483,6 @@ input EntityReferenceInput {
     id: GenericScalar!
     type: String!
     version: String
-}
-
-"Example domain type for automatontemplate"
-input FooInput {
-    created: Timestamp!
-    description: String
-    flag: Boolean!
-    id: String!
-    name: String!
-    num: Int!
-    ownerId: String!
-    type: String!
-}
-
-"Catalog-like domain object, referenced by Foo."
-input FooTypeInput {
-    name: String!
-    ordinal: Int!
 }
 
 "Container for user-editable interactive query definition. Wraps a query string and a default query config."
@@ -542,23 +578,23 @@ input QueryConfigInput {
 }
 
 
-"Map graph representing a JOOQ field expression"
-scalar FieldExpression
-
 "Built-in Byte as Int"
 scalar Byte
-
-"SQL timestamp equivalent"
-scalar Timestamp
-
-"Container for generic scalar values"
-scalar GenericScalar
 
 "Map graph representing JOOQ conditions"
 scalar Condition
 
+"Container for generic domain objects as scalar"
+scalar DomainObject
+
+"Map graph representing a JOOQ field expression"
+scalar FieldExpression
+
+"Container for generic scalar values"
+scalar GenericScalar
+
 "Postgresql jsonb type equivalent"
 scalar JSONB
 
-"Container for generic domain objects as scalar"
-scalar DomainObject
+"SQL timestamp equivalent"
+scalar Timestamp

@@ -4,6 +4,7 @@
 package de.quinscape.automatontemplate.domain;
 
 
+import de.quinscape.automatontemplate.domain.tables.App;
 import de.quinscape.automatontemplate.domain.tables.AppAttachment;
 import de.quinscape.automatontemplate.domain.tables.AppAttachmentData;
 import de.quinscape.automatontemplate.domain.tables.AppConfig;
@@ -12,18 +13,23 @@ import de.quinscape.automatontemplate.domain.tables.AppTranslation;
 import de.quinscape.automatontemplate.domain.tables.AppUser;
 import de.quinscape.automatontemplate.domain.tables.AppUserConfig;
 import de.quinscape.automatontemplate.domain.tables.AppVersion;
-import de.quinscape.automatontemplate.domain.tables.Foo;
-import de.quinscape.automatontemplate.domain.tables.FooType;
+import de.quinscape.automatontemplate.domain.tables.DomainField;
+import de.quinscape.automatontemplate.domain.tables.DomainFieldMeta;
+import de.quinscape.automatontemplate.domain.tables.DomainType;
+import de.quinscape.automatontemplate.domain.tables.DomainTypeMeta;
 import de.quinscape.automatontemplate.domain.tables.records.AppAttachmentDataRecord;
 import de.quinscape.automatontemplate.domain.tables.records.AppAttachmentRecord;
 import de.quinscape.automatontemplate.domain.tables.records.AppConfigRecord;
 import de.quinscape.automatontemplate.domain.tables.records.AppLoginRecord;
+import de.quinscape.automatontemplate.domain.tables.records.AppRecord;
 import de.quinscape.automatontemplate.domain.tables.records.AppTranslationRecord;
 import de.quinscape.automatontemplate.domain.tables.records.AppUserConfigRecord;
 import de.quinscape.automatontemplate.domain.tables.records.AppUserRecord;
 import de.quinscape.automatontemplate.domain.tables.records.AppVersionRecord;
-import de.quinscape.automatontemplate.domain.tables.records.FooRecord;
-import de.quinscape.automatontemplate.domain.tables.records.FooTypeRecord;
+import de.quinscape.automatontemplate.domain.tables.records.DomainFieldMetaRecord;
+import de.quinscape.automatontemplate.domain.tables.records.DomainFieldRecord;
+import de.quinscape.automatontemplate.domain.tables.records.DomainTypeMetaRecord;
+import de.quinscape.automatontemplate.domain.tables.records.DomainTypeRecord;
 
 import javax.annotation.Generated;
 
@@ -55,6 +61,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<AppRecord> PK_APP = UniqueKeys0.PK_APP;
     public static final UniqueKey<AppAttachmentRecord> PK_APP_ATTACHMENT = UniqueKeys0.PK_APP_ATTACHMENT;
     public static final UniqueKey<AppAttachmentDataRecord> PK_APP_ATTACHMENT_DATA = UniqueKeys0.PK_APP_ATTACHMENT_DATA;
     public static final UniqueKey<AppAttachmentDataRecord> UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID = UniqueKeys0.UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID;
@@ -66,9 +73,10 @@ public class Keys {
     public static final UniqueKey<AppUserRecord> UC_APP_USER_LOGIN = UniqueKeys0.UC_APP_USER_LOGIN;
     public static final UniqueKey<AppUserConfigRecord> PK_APP_USER_CONFIG = UniqueKeys0.PK_APP_USER_CONFIG;
     public static final UniqueKey<AppVersionRecord> PK_APP_VERSION = UniqueKeys0.PK_APP_VERSION;
-    public static final UniqueKey<FooRecord> PK_FOO = UniqueKeys0.PK_FOO;
-    public static final UniqueKey<FooTypeRecord> PK_FOO_TYPE = UniqueKeys0.PK_FOO_TYPE;
-    public static final UniqueKey<FooTypeRecord> FOO_TYPE_NAME_KEY = UniqueKeys0.FOO_TYPE_NAME_KEY;
+    public static final UniqueKey<DomainFieldRecord> PK_DOMAIN_FIELD = UniqueKeys0.PK_DOMAIN_FIELD;
+    public static final UniqueKey<DomainFieldMetaRecord> PK_DOMAIN_FIELD_META = UniqueKeys0.PK_DOMAIN_FIELD_META;
+    public static final UniqueKey<DomainTypeRecord> PK_DOMAIN_TYPE = UniqueKeys0.PK_DOMAIN_TYPE;
+    public static final UniqueKey<DomainTypeMetaRecord> PK_DOMAIN_TYPE_META = UniqueKeys0.PK_DOMAIN_TYPE_META;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -77,14 +85,17 @@ public class Keys {
     public static final ForeignKey<AppAttachmentDataRecord, AppAttachmentRecord> APP_ATTACHMENT_DATA__FK_APP_ATTACHMENT_DATA_ATTACHMENT_ID = ForeignKeys0.APP_ATTACHMENT_DATA__FK_APP_ATTACHMENT_DATA_ATTACHMENT_ID;
     public static final ForeignKey<AppUserConfigRecord, AppUserRecord> APP_USER_CONFIG__FK_APP_USER_CONFIG_USER_ID = ForeignKeys0.APP_USER_CONFIG__FK_APP_USER_CONFIG_USER_ID;
     public static final ForeignKey<AppVersionRecord, AppUserRecord> APP_VERSION__FK_APP_VERSION_OWNER_ID = ForeignKeys0.APP_VERSION__FK_APP_VERSION_OWNER_ID;
-    public static final ForeignKey<FooRecord, FooTypeRecord> FOO__FK_FOO_TYPE_ID = ForeignKeys0.FOO__FK_FOO_TYPE_ID;
-    public static final ForeignKey<FooRecord, AppUserRecord> FOO__FK_FOO_OWNER_ID = ForeignKeys0.FOO__FK_FOO_OWNER_ID;
+    public static final ForeignKey<DomainFieldRecord, DomainTypeRecord> DOMAIN_FIELD__FK_DOMAIN_FIELD_TYPE_ID = ForeignKeys0.DOMAIN_FIELD__FK_DOMAIN_FIELD_TYPE_ID;
+    public static final ForeignKey<DomainFieldMetaRecord, DomainFieldRecord> DOMAIN_FIELD_META__FK_DOMAIN_FIELD_META_FIELD_ID = ForeignKeys0.DOMAIN_FIELD_META__FK_DOMAIN_FIELD_META_FIELD_ID;
+    public static final ForeignKey<DomainTypeRecord, AppRecord> DOMAIN_TYPE__FK_DOMAIN_TYPE_APP_ID = ForeignKeys0.DOMAIN_TYPE__FK_DOMAIN_TYPE_APP_ID;
+    public static final ForeignKey<DomainTypeMetaRecord, DomainTypeRecord> DOMAIN_TYPE_META__FK_DOMAIN_TYPE_META_TYPE_ID = ForeignKeys0.DOMAIN_TYPE_META__FK_DOMAIN_TYPE_META_TYPE_ID;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
     private static class UniqueKeys0 {
+        public static final UniqueKey<AppRecord> PK_APP = Internal.createUniqueKey(App.APP, "pk_app", App.APP.ID);
         public static final UniqueKey<AppAttachmentRecord> PK_APP_ATTACHMENT = Internal.createUniqueKey(AppAttachment.APP_ATTACHMENT, "pk_app_attachment", AppAttachment.APP_ATTACHMENT.ID);
         public static final UniqueKey<AppAttachmentDataRecord> PK_APP_ATTACHMENT_DATA = Internal.createUniqueKey(AppAttachmentData.APP_ATTACHMENT_DATA, "pk_app_attachment_data", AppAttachmentData.APP_ATTACHMENT_DATA.ID);
         public static final UniqueKey<AppAttachmentDataRecord> UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID = Internal.createUniqueKey(AppAttachmentData.APP_ATTACHMENT_DATA, "uc_app_attachment_data_attachment_id", AppAttachmentData.APP_ATTACHMENT_DATA.ATTACHMENT_ID);
@@ -96,16 +107,19 @@ public class Keys {
         public static final UniqueKey<AppUserRecord> UC_APP_USER_LOGIN = Internal.createUniqueKey(AppUser.APP_USER, "uc_app_user_login", AppUser.APP_USER.LOGIN);
         public static final UniqueKey<AppUserConfigRecord> PK_APP_USER_CONFIG = Internal.createUniqueKey(AppUserConfig.APP_USER_CONFIG, "pk_app_user_config", AppUserConfig.APP_USER_CONFIG.LOGIN);
         public static final UniqueKey<AppVersionRecord> PK_APP_VERSION = Internal.createUniqueKey(AppVersion.APP_VERSION, "pk_app_version", AppVersion.APP_VERSION.ID);
-        public static final UniqueKey<FooRecord> PK_FOO = Internal.createUniqueKey(Foo.FOO, "pk_foo", Foo.FOO.ID);
-        public static final UniqueKey<FooTypeRecord> PK_FOO_TYPE = Internal.createUniqueKey(FooType.FOO_TYPE, "pk_foo_type", FooType.FOO_TYPE.ORDINAL);
-        public static final UniqueKey<FooTypeRecord> FOO_TYPE_NAME_KEY = Internal.createUniqueKey(FooType.FOO_TYPE, "foo_type_name_key", FooType.FOO_TYPE.NAME);
+        public static final UniqueKey<DomainFieldRecord> PK_DOMAIN_FIELD = Internal.createUniqueKey(DomainField.DOMAIN_FIELD, "pk_domain_field", DomainField.DOMAIN_FIELD.ID);
+        public static final UniqueKey<DomainFieldMetaRecord> PK_DOMAIN_FIELD_META = Internal.createUniqueKey(DomainFieldMeta.DOMAIN_FIELD_META, "pk_domain_field_meta", DomainFieldMeta.DOMAIN_FIELD_META.ID);
+        public static final UniqueKey<DomainTypeRecord> PK_DOMAIN_TYPE = Internal.createUniqueKey(DomainType.DOMAIN_TYPE, "pk_domain_type", DomainType.DOMAIN_TYPE.ID);
+        public static final UniqueKey<DomainTypeMetaRecord> PK_DOMAIN_TYPE_META = Internal.createUniqueKey(DomainTypeMeta.DOMAIN_TYPE_META, "pk_domain_type_meta", DomainTypeMeta.DOMAIN_TYPE_META.ID);
     }
 
     private static class ForeignKeys0 {
         public static final ForeignKey<AppAttachmentDataRecord, AppAttachmentRecord> APP_ATTACHMENT_DATA__FK_APP_ATTACHMENT_DATA_ATTACHMENT_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_APP_ATTACHMENT, AppAttachmentData.APP_ATTACHMENT_DATA, "app_attachment_data__fk_app_attachment_data_attachment_id", AppAttachmentData.APP_ATTACHMENT_DATA.ATTACHMENT_ID);
         public static final ForeignKey<AppUserConfigRecord, AppUserRecord> APP_USER_CONFIG__FK_APP_USER_CONFIG_USER_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_APP_USER, AppUserConfig.APP_USER_CONFIG, "app_user_config__fk_app_user_config_user_id", AppUserConfig.APP_USER_CONFIG.USER_ID);
         public static final ForeignKey<AppVersionRecord, AppUserRecord> APP_VERSION__FK_APP_VERSION_OWNER_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_APP_USER, AppVersion.APP_VERSION, "app_version__fk_app_version_owner_id", AppVersion.APP_VERSION.OWNER_ID);
-        public static final ForeignKey<FooRecord, FooTypeRecord> FOO__FK_FOO_TYPE_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.FOO_TYPE_NAME_KEY, Foo.FOO, "foo__fk_foo_type_id", Foo.FOO.TYPE);
-        public static final ForeignKey<FooRecord, AppUserRecord> FOO__FK_FOO_OWNER_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_APP_USER, Foo.FOO, "foo__fk_foo_owner_id", Foo.FOO.OWNER_ID);
+        public static final ForeignKey<DomainFieldRecord, DomainTypeRecord> DOMAIN_FIELD__FK_DOMAIN_FIELD_TYPE_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_DOMAIN_TYPE, DomainField.DOMAIN_FIELD, "domain_field__fk_domain_field_type_id", DomainField.DOMAIN_FIELD.DOMAIN_TYPE_ID);
+        public static final ForeignKey<DomainFieldMetaRecord, DomainFieldRecord> DOMAIN_FIELD_META__FK_DOMAIN_FIELD_META_FIELD_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_DOMAIN_FIELD, DomainFieldMeta.DOMAIN_FIELD_META, "domain_field_meta__fk_domain_field_meta_field_id", DomainFieldMeta.DOMAIN_FIELD_META.DOMAIN_FIELD_ID);
+        public static final ForeignKey<DomainTypeRecord, AppRecord> DOMAIN_TYPE__FK_DOMAIN_TYPE_APP_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_APP, DomainType.DOMAIN_TYPE, "domain_type__fk_domain_type_app_id", DomainType.DOMAIN_TYPE.APP_ID);
+        public static final ForeignKey<DomainTypeMetaRecord, DomainTypeRecord> DOMAIN_TYPE_META__FK_DOMAIN_TYPE_META_TYPE_ID = Internal.createForeignKey(de.quinscape.automatontemplate.domain.Keys.PK_DOMAIN_TYPE, DomainTypeMeta.DOMAIN_TYPE_META, "domain_type_meta__fk_domain_type_meta_type_id", DomainTypeMeta.DOMAIN_TYPE_META.DOMAIN_TYPE_ID);
     }
 }

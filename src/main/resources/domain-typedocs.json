@@ -1,15 +1,29 @@
 [
     {
-        "name": "Foo",
-        "description": "Example domain type for automatontemplate",
+        "name": "App",
+        "description": "The application root",
         "fieldDocs": []
     },
     {
-        "name": "FooType",
-        "description": "Catalog-like domain object, referenced by Foo.",
+        "name": "DomainType",
+        "description": "A domain type within your application",
         "fieldDocs": []
     },
-
+    {
+        "name": "DomainField",
+        "description": "A domain field belonging to a domain type",
+        "fieldDocs": []
+    },
+    {
+        "name": "DomainTypeMeta",
+        "description": "Meta data about a domain type",
+        "fieldDocs": []
+    },
+    {
+        "name": "DomainFieldMeta",
+        "description": "Meta data about a domain type field",
+        "fieldDocs": []
+    },
 
     {
         "name": "AppConfig",

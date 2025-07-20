@@ -4,8 +4,9 @@
  import de.quinscape.automaton.model.data.QueryConfig;
  import de.quinscape.automaton.runtime.data.InteractiveQueryService;
  import de.quinscape.automatontemplate.domain.tables.pojos.AppUser;
- import de.quinscape.automatontemplate.domain.tables.pojos.Foo;
- import de.quinscape.automatontemplate.domain.tables.pojos.FooType;
+ import de.quinscape.automatontemplate.domain.tables.pojos.DomainField;
+ import de.quinscape.automatontemplate.domain.tables.pojos.DomainType;
+ import de.quinscape.automatontemplate.domain.tables.pojos.App;
  import de.quinscape.domainql.annotation.GraphQLLogic;
  import de.quinscape.domainql.annotation.GraphQLQuery;
  import de.quinscape.domainql.annotation.GraphQLTypeParam;
@@ -50,9 +51,10 @@ public class AutomatontemplateLogic
 
         @GraphQLTypeParam(
             types = {
+                App.class,
                 AppUser.class,
-                Foo.class,
-                FooType.class
+                DomainType.class,
+                DomainField.class
             }
         )
         Class<T> type,
