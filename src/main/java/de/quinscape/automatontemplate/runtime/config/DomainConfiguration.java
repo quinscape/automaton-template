@@ -24,7 +24,6 @@ import javax.transaction.SystemException;
 import java.util.Properties;
 
 import static de.quinscape.automatontemplate.domain.Tables.*;
-
 @Configuration
 public class DomainConfiguration
 {

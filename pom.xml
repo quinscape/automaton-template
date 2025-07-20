@@ -410,9 +410,9 @@
                     <!-- JDBC connection parameters -->
                     <jdbc>
                         <driver>org.postgresql.Driver</driver>
-                        <url>jdbc:postgresql://localhost/automatontemplate</url>
-                        <user>automatontemplate</user>
-                        <password>automatontemplate</password>
+                        <url>jdbc:postgresql://localhost/proto</url>
+                        <user>proto</user>
+                        <password>proto</password>
                     </jdbc>
 
                     <!-- Generator parameters -->

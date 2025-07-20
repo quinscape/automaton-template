@@ -150,10 +150,6 @@ public class ServiceConfiguration
                 "            id\n" +
                 "            created\n" +
                 "            lastLogin\n" +
-                "            foos{\n" +
-                "                name\n" +
-                "                created\n" +
-                "            }\n" +
                 "        }\n"    +
                 "    }\n" +
                 "}"
@@ -161,7 +157,7 @@ public class ServiceConfiguration
         );
     }
 
-// Alternative: File based attachment repository
+// Alternative: File based attachment repository                                                    A
 //    @Bean
 //    public AttachmentRepository attachmentRepository(
 //        DSLContext dslContext,

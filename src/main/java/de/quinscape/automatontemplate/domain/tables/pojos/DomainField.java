@@ -7,7 +7,6 @@ package de.quinscape.automatontemplate.domain.tables.pojos;
 import de.quinscape.domainql.jooq.GeneratedDomainObject;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 import javax.persistence.Column;
@@ -31,53 +30,45 @@ import javax.validation.constraints.Size;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
-@Table(name = "foo", schema = "public", indexes = {
-    @Index(name = "pk_foo", unique = true, columnList = "id ASC")
+@Table(name = "domain_field", schema = "public", indexes = {
+    @Index(name = "pk_domain_field", unique = true, columnList = "id ASC")
 })
-public class Foo extends GeneratedDomainObject implements Serializable {
+public class DomainField extends GeneratedDomainObject implements Serializable {
 
-    private static final long serialVersionUID = -318481903;
+    private static final long serialVersionUID = 2102249341;
 
-    private String    id;
-    private String    name;
-    private Integer   num;
-    private String    type;
-    private Timestamp created;
-    private String    description;
-    private String    ownerId;
-    private Boolean   flag;
+    private String  id;
+    private String  name;
+    private String  type;
+    private String  description;
+    private String  domainTypeId;
+    private Boolean important;
 
-    public Foo() {}
+    public DomainField() {}
 
-    public Foo(Foo value) {
+    public DomainField(DomainField value) {
         this.id = value.id;
         this.name = value.name;
-        this.num = value.num;
         this.type = value.type;
-        this.created = value.created;
         this.description = value.description;
-        this.ownerId = value.ownerId;
-        this.flag = value.flag;
+        this.domainTypeId = value.domainTypeId;
+        this.important = value.important;
     }
 
-    public Foo(
-        String    id,
-        String    name,
-        Integer   num,
-        String    type,
-        Timestamp created,
-        String    description,
-        String    ownerId,
-        Boolean   flag
+    public DomainField(
+        String  id,
+        String  name,
+        String  type,
+        String  description,
+        String  domainTypeId,
+        Boolean important
     ) {
         this.id = id;
         this.name = name;
-        this.num = num;
         this.type = type;
-        this.created = created;
         this.description = description;
-        this.ownerId = ownerId;
-        this.flag = flag;
+        this.domainTypeId = domainTypeId;
+        this.important = important;
     }
 
     @Id
@@ -92,8 +83,7 @@ public class Foo extends GeneratedDomainObject implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "name", nullable = false, length = 100)
-    @NotNull
+    @Column(name = "name", length = 100)
     @Size(max = 100)
     public String getName() {
         return this.name;
@@ -101,16 +91,6 @@ public class Foo extends GeneratedDomainObject implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Column(name = "num", nullable = false, precision = 32)
-    @NotNull
-    public Integer getNum() {
-        return this.num;
-    }
-
-    public void setNum(Integer num) {
-        this.num = num;
     }
 
     @Column(name = "type", nullable = false, length = 100)
@@ -124,16 +104,6 @@ public class Foo extends GeneratedDomainObject implements Serializable {
         this.type = type;
     }
 
-    @Column(name = "created", nullable = false)
-    @NotNull
-    public Timestamp getCreated() {
-        return this.created;
-    }
-
-    public void setCreated(Timestamp created) {
-        this.created = created;
-    }
-
     @Column(name = "description")
     public String getDescription() {
         return this.description;
@@ -143,39 +113,37 @@ public class Foo extends GeneratedDomainObject implements Serializable {
         this.description = description;
     }
 
-    @Column(name = "owner_id", nullable = false, length = 36)
+    @Column(name = "domain_type_id", nullable = false, length = 36)
     @NotNull
     @Size(max = 36)
-    public String getOwnerId() {
-        return this.ownerId;
+    public String getDomainTypeId() {
+        return this.domainTypeId;
     }
 
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
+    public void setDomainTypeId(String domainTypeId) {
+        this.domainTypeId = domainTypeId;
     }
 
-    @Column(name = "flag", nullable = false)
+    @Column(name = "important", nullable = false)
     @NotNull
-    public Boolean getFlag() {
-        return this.flag;
+    public Boolean getImportant() {
+        return this.important;
     }
 
-    public void setFlag(Boolean flag) {
-        this.flag = flag;
+    public void setImportant(Boolean important) {
+        this.important = important;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Foo (");
+        StringBuilder sb = new StringBuilder("DomainField (");
 
         sb.append(id);
         sb.append(", ").append(name);
-        sb.append(", ").append(num);
         sb.append(", ").append(type);
-        sb.append(", ").append(created);
         sb.append(", ").append(description);
-        sb.append(", ").append(ownerId);
-        sb.append(", ").append(flag);
+        sb.append(", ").append(domainTypeId);
+        sb.append(", ").append(important);
 
         sb.append(")");
         return sb.toString();

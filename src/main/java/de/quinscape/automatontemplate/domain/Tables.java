@@ -4,6 +4,7 @@
 package de.quinscape.automatontemplate.domain;
 
 
+import de.quinscape.automatontemplate.domain.tables.App;
 import de.quinscape.automatontemplate.domain.tables.AppAttachment;
 import de.quinscape.automatontemplate.domain.tables.AppAttachmentData;
 import de.quinscape.automatontemplate.domain.tables.AppConfig;
@@ -12,8 +13,10 @@ import de.quinscape.automatontemplate.domain.tables.AppTranslation;
 import de.quinscape.automatontemplate.domain.tables.AppUser;
 import de.quinscape.automatontemplate.domain.tables.AppUserConfig;
 import de.quinscape.automatontemplate.domain.tables.AppVersion;
-import de.quinscape.automatontemplate.domain.tables.Foo;
-import de.quinscape.automatontemplate.domain.tables.FooType;
+import de.quinscape.automatontemplate.domain.tables.DomainField;
+import de.quinscape.automatontemplate.domain.tables.DomainFieldMeta;
+import de.quinscape.automatontemplate.domain.tables.DomainType;
+import de.quinscape.automatontemplate.domain.tables.DomainTypeMeta;
 
 import javax.annotation.Generated;
 
@@ -30,6 +33,11 @@ import javax.annotation.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>public.app</code>.
+     */
+    public static final App APP = de.quinscape.automatontemplate.domain.tables.App.APP;
 
     /**
      * The table <code>public.app_attachment</code>.
@@ -72,12 +80,22 @@ public class Tables {
     public static final AppVersion APP_VERSION = de.quinscape.automatontemplate.domain.tables.AppVersion.APP_VERSION;
 
     /**
-     * The table <code>public.foo</code>.
+     * The table <code>public.domain_field</code>.
      */
-    public static final Foo FOO = de.quinscape.automatontemplate.domain.tables.Foo.FOO;
+    public static final DomainField DOMAIN_FIELD = de.quinscape.automatontemplate.domain.tables.DomainField.DOMAIN_FIELD;
 
     /**
-     * The table <code>public.foo_type</code>.
+     * The table <code>public.domain_field_meta</code>.
      */
-    public static final FooType FOO_TYPE = de.quinscape.automatontemplate.domain.tables.FooType.FOO_TYPE;
+    public static final DomainFieldMeta DOMAIN_FIELD_META = de.quinscape.automatontemplate.domain.tables.DomainFieldMeta.DOMAIN_FIELD_META;
+
+    /**
+     * The table <code>public.domain_type</code>.
+     */
+    public static final DomainType DOMAIN_TYPE = de.quinscape.automatontemplate.domain.tables.DomainType.DOMAIN_TYPE;
+
+    /**
+     * The table <code>public.domain_type_meta</code>.
+     */
+    public static final DomainTypeMeta DOMAIN_TYPE_META = de.quinscape.automatontemplate.domain.tables.DomainTypeMeta.DOMAIN_TYPE_META;
 }
