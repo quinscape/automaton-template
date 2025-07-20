@@ -4,7 +4,7 @@
 package de.quinscape.automatontemplate.domain.tables.records;
 
 
-import de.quinscape.automatontemplate.domain.tables.FooType;
+import de.quinscape.automatontemplate.domain.tables.App;
 
 import javax.annotation.Generated;
 import javax.persistence.Column;
@@ -17,8 +17,8 @@ import javax.validation.constraints.Size;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record2;
-import org.jooq.Row2;
+import org.jooq.Record3;
+import org.jooq.Row3;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -34,46 +34,61 @@ import org.jooq.impl.UpdatableRecordImpl;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Entity
-@Table(name = "foo_type", schema = "public", indexes = {
-    @Index(name = "foo_type_name_key", unique = true, columnList = "name ASC"),
-    @Index(name = "pk_foo_type", unique = true, columnList = "ordinal ASC")
+@Table(name = "app", schema = "public", indexes = {
+    @Index(name = "pk_app", unique = true, columnList = "id ASC")
 })
-public class FooTypeRecord extends UpdatableRecordImpl<FooTypeRecord> implements Record2<Integer, String> {
+public class AppRecord extends UpdatableRecordImpl<AppRecord> implements Record3<String, String, String> {
 
-    private static final long serialVersionUID = 1124311763;
+    private static final long serialVersionUID = -1207173174;
 
     /**
-     * Setter for <code>public.foo_type.ordinal</code>.
+     * Setter for <code>public.app.id</code>.
      */
-    public void setOrdinal(Integer value) {
+    public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>public.foo_type.ordinal</code>.
+     * Getter for <code>public.app.id</code>.
      */
     @Id
-    @Column(name = "ordinal", unique = true, nullable = false, precision = 32)
+    @Column(name = "id", unique = true, nullable = false, length = 36)
     @NotNull
-    public Integer getOrdinal() {
-        return (Integer) get(0);
+    @Size(max = 36)
+    public String getId() {
+        return (String) get(0);
     }
 
     /**
-     * Setter for <code>public.foo_type.name</code>.
+     * Setter for <code>public.app.name</code>.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>public.foo_type.name</code>.
+     * Getter for <code>public.app.name</code>.
      */
-    @Column(name = "name", unique = true, nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 100)
     @NotNull
     @Size(max = 100)
     public String getName() {
         return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>public.app.description</code>.
+     */
+    public void setDescription(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>public.app.description</code>.
+     */
+    @Column(name = "description")
+    public String getDescription() {
+        return (String) get(2);
     }
 
     // -------------------------------------------------------------------------
@@ -84,36 +99,36 @@ public class FooTypeRecord extends UpdatableRecordImpl<FooTypeRecord> implements
      * {@inheritDoc}
      */
     @Override
-    public Record1<Integer> key() {
+    public Record1<String> key() {
         return (Record1) super.key();
     }
 
     // -------------------------------------------------------------------------
-    // Record2 type implementation
+    // Record3 type implementation
     // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Row2<Integer, String> fieldsRow() {
-        return (Row2) super.fieldsRow();
+    public Row3<String, String, String> fieldsRow() {
+        return (Row3) super.fieldsRow();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Row2<Integer, String> valuesRow() {
-        return (Row2) super.valuesRow();
+    public Row3<String, String, String> valuesRow() {
+        return (Row3) super.valuesRow();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Field<Integer> field1() {
-        return FooType.FOO_TYPE.ORDINAL;
+    public Field<String> field1() {
+        return App.APP.ID;
     }
 
     /**
@@ -121,15 +136,23 @@ public class FooTypeRecord extends UpdatableRecordImpl<FooTypeRecord> implements
      */
     @Override
     public Field<String> field2() {
-        return FooType.FOO_TYPE.NAME;
+        return App.APP.NAME;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Integer component1() {
-        return getOrdinal();
+    public Field<String> field3() {
+        return App.APP.DESCRIPTION;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String component1() {
+        return getId();
     }
 
     /**
@@ -144,8 +167,16 @@ public class FooTypeRecord extends UpdatableRecordImpl<FooTypeRecord> implements
      * {@inheritDoc}
      */
     @Override
-    public Integer value1() {
-        return getOrdinal();
+    public String component3() {
+        return getDescription();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String value1() {
+        return getId();
     }
 
     /**
@@ -160,8 +191,16 @@ public class FooTypeRecord extends UpdatableRecordImpl<FooTypeRecord> implements
      * {@inheritDoc}
      */
     @Override
-    public FooTypeRecord value1(Integer value) {
-        setOrdinal(value);
+    public String value3() {
+        return getDescription();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AppRecord value1(String value) {
+        setId(value);
         return this;
     }
 
@@ -169,7 +208,7 @@ public class FooTypeRecord extends UpdatableRecordImpl<FooTypeRecord> implements
      * {@inheritDoc}
      */
     @Override
-    public FooTypeRecord value2(String value) {
+    public AppRecord value2(String value) {
         setName(value);
         return this;
     }
@@ -178,9 +217,19 @@ public class FooTypeRecord extends UpdatableRecordImpl<FooTypeRecord> implements
      * {@inheritDoc}
      */
     @Override
-    public FooTypeRecord values(Integer value1, String value2) {
+    public AppRecord value3(String value) {
+        setDescription(value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AppRecord values(String value1, String value2, String value3) {
         value1(value1);
         value2(value2);
+        value3(value3);
         return this;
     }
 
@@ -189,19 +238,20 @@ public class FooTypeRecord extends UpdatableRecordImpl<FooTypeRecord> implements
     // -------------------------------------------------------------------------
 
     /**
-     * Create a detached FooTypeRecord
+     * Create a detached AppRecord
      */
-    public FooTypeRecord() {
-        super(FooType.FOO_TYPE);
+    public AppRecord() {
+        super(App.APP);
     }
 
     /**
-     * Create a detached, initialised FooTypeRecord
+     * Create a detached, initialised AppRecord
      */
-    public FooTypeRecord(Integer ordinal, String name) {
-        super(FooType.FOO_TYPE);
+    public AppRecord(String id, String name, String description) {
+        super(App.APP);
 
-        set(0, ordinal);
+        set(0, id);
         set(1, name);
+        set(2, description);
     }
 }

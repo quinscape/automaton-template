@@ -4,6 +4,7 @@
 package de.quinscape.automatontemplate.domain;
 
 
+import de.quinscape.automatontemplate.domain.tables.App;
 import de.quinscape.automatontemplate.domain.tables.AppAttachment;
 import de.quinscape.automatontemplate.domain.tables.AppAttachmentData;
 import de.quinscape.automatontemplate.domain.tables.AppConfig;
@@ -12,8 +13,10 @@ import de.quinscape.automatontemplate.domain.tables.AppTranslation;
 import de.quinscape.automatontemplate.domain.tables.AppUser;
 import de.quinscape.automatontemplate.domain.tables.AppUserConfig;
 import de.quinscape.automatontemplate.domain.tables.AppVersion;
-import de.quinscape.automatontemplate.domain.tables.Foo;
-import de.quinscape.automatontemplate.domain.tables.FooType;
+import de.quinscape.automatontemplate.domain.tables.DomainField;
+import de.quinscape.automatontemplate.domain.tables.DomainFieldMeta;
+import de.quinscape.automatontemplate.domain.tables.DomainType;
+import de.quinscape.automatontemplate.domain.tables.DomainTypeMeta;
 
 import javax.annotation.Generated;
 
@@ -39,6 +42,7 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index PK_APP = Indexes0.PK_APP;
     public static final Index PK_APP_ATTACHMENT = Indexes0.PK_APP_ATTACHMENT;
     public static final Index PK_APP_ATTACHMENT_DATA = Indexes0.PK_APP_ATTACHMENT_DATA;
     public static final Index UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID = Indexes0.UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID;
@@ -50,15 +54,17 @@ public class Indexes {
     public static final Index UC_APP_USER_LOGIN = Indexes0.UC_APP_USER_LOGIN;
     public static final Index PK_APP_USER_CONFIG = Indexes0.PK_APP_USER_CONFIG;
     public static final Index PK_APP_VERSION = Indexes0.PK_APP_VERSION;
-    public static final Index PK_FOO = Indexes0.PK_FOO;
-    public static final Index FOO_TYPE_NAME_KEY = Indexes0.FOO_TYPE_NAME_KEY;
-    public static final Index PK_FOO_TYPE = Indexes0.PK_FOO_TYPE;
+    public static final Index PK_DOMAIN_FIELD = Indexes0.PK_DOMAIN_FIELD;
+    public static final Index PK_DOMAIN_FIELD_META = Indexes0.PK_DOMAIN_FIELD_META;
+    public static final Index PK_DOMAIN_TYPE = Indexes0.PK_DOMAIN_TYPE;
+    public static final Index PK_DOMAIN_TYPE_META = Indexes0.PK_DOMAIN_TYPE_META;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
+        public static Index PK_APP = Internal.createIndex("pk_app", App.APP, new OrderField[] { App.APP.ID }, true);
         public static Index PK_APP_ATTACHMENT = Internal.createIndex("pk_app_attachment", AppAttachment.APP_ATTACHMENT, new OrderField[] { AppAttachment.APP_ATTACHMENT.ID }, true);
         public static Index PK_APP_ATTACHMENT_DATA = Internal.createIndex("pk_app_attachment_data", AppAttachmentData.APP_ATTACHMENT_DATA, new OrderField[] { AppAttachmentData.APP_ATTACHMENT_DATA.ID }, true);
         public static Index UC_APP_ATTACHMENT_DATA_ATTACHMENT_ID = Internal.createIndex("uc_app_attachment_data_attachment_id", AppAttachmentData.APP_ATTACHMENT_DATA, new OrderField[] { AppAttachmentData.APP_ATTACHMENT_DATA.ATTACHMENT_ID }, true);
@@ -70,8 +76,9 @@ public class Indexes {
         public static Index UC_APP_USER_LOGIN = Internal.createIndex("uc_app_user_login", AppUser.APP_USER, new OrderField[] { AppUser.APP_USER.LOGIN }, true);
         public static Index PK_APP_USER_CONFIG = Internal.createIndex("pk_app_user_config", AppUserConfig.APP_USER_CONFIG, new OrderField[] { AppUserConfig.APP_USER_CONFIG.LOGIN }, true);
         public static Index PK_APP_VERSION = Internal.createIndex("pk_app_version", AppVersion.APP_VERSION, new OrderField[] { AppVersion.APP_VERSION.ID }, true);
-        public static Index PK_FOO = Internal.createIndex("pk_foo", Foo.FOO, new OrderField[] { Foo.FOO.ID }, true);
-        public static Index FOO_TYPE_NAME_KEY = Internal.createIndex("foo_type_name_key", FooType.FOO_TYPE, new OrderField[] { FooType.FOO_TYPE.NAME }, true);
-        public static Index PK_FOO_TYPE = Internal.createIndex("pk_foo_type", FooType.FOO_TYPE, new OrderField[] { FooType.FOO_TYPE.ORDINAL }, true);
+        public static Index PK_DOMAIN_FIELD = Internal.createIndex("pk_domain_field", DomainField.DOMAIN_FIELD, new OrderField[] { DomainField.DOMAIN_FIELD.ID }, true);
+        public static Index PK_DOMAIN_FIELD_META = Internal.createIndex("pk_domain_field_meta", DomainFieldMeta.DOMAIN_FIELD_META, new OrderField[] { DomainFieldMeta.DOMAIN_FIELD_META.ID }, true);
+        public static Index PK_DOMAIN_TYPE = Internal.createIndex("pk_domain_type", DomainType.DOMAIN_TYPE, new OrderField[] { DomainType.DOMAIN_TYPE.ID }, true);
+        public static Index PK_DOMAIN_TYPE_META = Internal.createIndex("pk_domain_type_meta", DomainTypeMeta.DOMAIN_TYPE_META, new OrderField[] { DomainTypeMeta.DOMAIN_TYPE_META.ID }, true);
     }
 }
